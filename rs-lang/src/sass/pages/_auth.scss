@@ -1,0 +1,61 @@
+.auth {
+  width: 500px;
+  height: 390px;
+  margin: 100px auto;
+  padding: 20px;
+  background-color: #fff;
+  letter-spacing: 0.1em;
+  
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid rgb(208, 209, 211);
+    margin-bottom: 50px;
+    font-weight: 700;
+  }
+
+  &__link {
+    all: unset;
+    display: block;
+    padding: 10px;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: center;
+    color: rgb(175, 176, 179);
+
+    &.active{
+      color: $colorDark;
+    }
+
+    &:hover {
+      color: #263366;
+    }
+  }
+
+  &__input {
+    display: block;
+    margin: 10px auto;
+    width: 300px;
+    height: 45px;
+    text-indent: 15px;
+    border: 2px solid $colorDark;
+  }
+
+  &__btn {
+    display: block;
+    padding: 10px;
+    margin: 10px auto;
+    width: 300px;
+    text-align: center;
+    color: #fff;
+    background-color: #263366;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: #fff;
+      background-color: #f76c6c;
+    }
+  }
+}

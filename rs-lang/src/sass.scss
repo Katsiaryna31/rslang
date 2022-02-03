@@ -1,0 +1,12 @@
+@import './sass/base/reset';
+@import './sass/utils/variables';
+
+//body
+@import './sass/layout/body';
+@import './sass/layout/header';
+@import './sass/layout/navigation';
+@import './sass/layout/footer';
+
+//pages
+@import './sass/pages/auth';
+
