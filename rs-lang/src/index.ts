@@ -1,4 +1,4 @@
-import { App } from './core/App';
+import { App } from './ts/App';
 import './sass.scss';
 
 const app = new App();

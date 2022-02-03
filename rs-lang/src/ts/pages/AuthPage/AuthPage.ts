@@ -1,5 +1,5 @@
-import Component from "../../core/templates/Component";
-import PageTemplate from "../../core/templates/Page";
+import Component from "../../templates/Component";
+import PageTemplate from "../../templates/Page";
 // import AuthPresentor from "./AuthPresentor";
 
 class AuthPage extends PageTemplate {

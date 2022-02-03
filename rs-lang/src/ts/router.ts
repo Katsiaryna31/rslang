@@ -1,5 +1,5 @@
-import AuthPage from "../Pages/AuthPage/AuthPage";
-import HomePage from "../Pages/HomePage/HomePage";
+import AuthPage from "./pages/AuthPage/AuthPage";
+import HomePage from "./pages/HomePage/HomePage";
 
 type Path = {
   resource: string;
@@ -36,4 +36,3 @@ export const router = () => {
   root.innerHTML = '';
   root.append(pageElement);
 };
-
