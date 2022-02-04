@@ -1,11 +1,10 @@
-import { router } from "./router";
+import router from './router';
+import userLoginCheck from './userCheck';
 
-
-export class App {
-
-  start() {
+export default class App {
+  async start() {
+    await userLoginCheck();
     this.enableHashChange();
-    router();
   }
 
   enableHashChange() {

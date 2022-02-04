@@ -1,4 +1,4 @@
-export default abstract class PageTemplate {
+export default abstract class Page {
   protected container: HTMLElement;
 
   constructor() {

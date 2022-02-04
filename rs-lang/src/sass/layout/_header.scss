@@ -32,9 +32,20 @@
 
 .sign-in {
   margin-top: 10px;
+  color: $color2;
 }
 
 .sign-out {
   margin-top: 10px;
   display: none;
+  cursor: pointer;
+  color: $color2;
+}
+
+.user-name {
+  display: none;
+  margin-top: 10px;
+  margin-right: 30px;
+  color: $color5;
+  cursor: default;
 }
