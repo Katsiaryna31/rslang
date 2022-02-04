@@ -1,15 +1,9 @@
-import Component from "../../templates/Component";
-import PageTemplate from "../../templates/Page";
-// import AuthPresentor from "./AuthPresentor";
+import Component from "../../common/Component";
+import Page from "../../common/Page";
+import RegisterForm from "./RegisterForm";
+import SignInForm from "./SignInForm";
 
-class AuthPage extends PageTemplate {
-
-  constructor(
-    // private presentor = AuthPresentor
-  ) {
-    super();
-  }
-
+export class AuthPage extends Page {
   render() {
     const container = new Component('div', 'auth').node;
 
@@ -18,8 +12,8 @@ class AuthPage extends PageTemplate {
     const registerLink = new Component('button', 'auth__link', 'Регистрация').node;
     nav.append(signInLink, registerLink);
 
-    const signInForm = this.createSignInForm();
-    const registerForm = this.createRegisterForm();
+    const signInForm = new SignInForm().node;
+    const registerForm = new RegisterForm().node;
     container.append(nav, signInForm, registerForm);
 
     signInLink.onclick = () => {
@@ -27,35 +21,16 @@ class AuthPage extends PageTemplate {
       registerForm.style.display = 'none';
       signInLink.classList.add('active');
       registerLink.classList.remove('active');
-    }
+    };
 
     registerLink.onclick = () => {
       signInForm.style.display = 'none';
       registerForm.style.display = '';
       signInLink.classList.remove('active');
       registerLink.classList.add('active');
-    }
+    };
     // document.body.classList.add('body_level1');
     return container;
-  }
-
-  createSignInForm() {
-    const form = new Component('form', 'auth__form').node;
-    const emailInput = new Component('input', 'auth__input', '', { type: 'email', placeholder: 'E-mail' }).node;
-    const passwordInput = new Component('input', 'auth__input', '', { type: 'password', placeholder: 'Пароль' }).node;
-    const btn = new Component('button', 'auth__btn', 'Войти').node;
-    form.append(emailInput, passwordInput, btn);
-    return form;
-  }
-
-  createRegisterForm() {
-    const form = new Component('form', 'auth__form', '', { style: 'display: none;' }).node;
-    const nameInput = new Component('input', 'auth__input', '', { type: 'text', placeholder: 'Имя' }).node;
-    const emailInput = new Component('input', 'auth__input', '', { type: 'email', placeholder: 'E-mail' }).node;
-    const passwordInput = new Component('input', 'auth__input', '', { type: 'password', placeholder: 'Пароль' }).node;
-    const btn = new Component('button', 'auth__btn', 'Зарегистрироваться').node;
-    form.append(nameInput, emailInput, passwordInput, btn);
-    return form;
   }
 }
 

@@ -1,15 +1,14 @@
-import { router } from "./router";
+import router from './router';
+import authorization from './authorization';
 
-
-export class App {
-
-  start() {
+export default class App {
+  async start() {
+    await authorization();
     this.enableHashChange();
     router();
   }
 
   enableHashChange() {
     window.addEventListener('hashchange', () => router());
-    window.addEventListener('load', () => router());
   }
 }
