@@ -1,0 +1,40 @@
+.header {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    height: 80px;
+  }
+
+  &__nav {
+    flex-grow: 1;
+  }
+
+  &__logo {
+    margin-right: 20px;
+  }
+}
+
+.logo {
+  display: block;
+  color: #fff;
+  font-weight: 900;
+  font-family: $font2;
+  font-size: 40px;
+  transition: all 0.3s ease-in-out;
+  
+  &:hover {
+    color: $color5;
+  }
+}
+
+.sign-in {
+  margin-top: 10px;
+}
+
+.sign-out {
+  margin-top: 10px;
+  display: none;
+}
