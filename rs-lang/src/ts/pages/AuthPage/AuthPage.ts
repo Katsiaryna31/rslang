@@ -1,5 +1,5 @@
-import Component from "../../templates/Component";
-import Page from "../../templates/Page";
+import Component from "../../common/Component";
+import Page from "../../common/Page";
 import RegisterForm from "./RegisterForm";
 import SignInForm from "./SignInForm";
 

@@ -1,5 +1,5 @@
-import Component from '../../templates/Component';
-import Page from '../../templates/Page';
+import Component from '../../common/Component';
+import Page from '../../common/Page';
 
 class HomePage extends Page {
   render() {

@@ -1,4 +1,4 @@
-import Component from "../../templates/Component";
+import Component from "../../common/Component";
 import RegisterPresenter from "./RegisterPresenter";
 
 export default class RegisterForm {

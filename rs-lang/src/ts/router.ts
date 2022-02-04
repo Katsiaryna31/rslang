@@ -1,6 +1,6 @@
 import authPage from "./pages/AuthPage/AuthPage";
 import homePage from "./pages/HomePage/HomePage";
-import Page from "./templates/Page";
+import Page from "./common/Page";
 
 export type Path = {
   resource: string;

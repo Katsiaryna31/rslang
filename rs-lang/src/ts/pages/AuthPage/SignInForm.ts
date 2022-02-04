@@ -1,4 +1,4 @@
-import Component from "../../templates/Component";
+import Component from "../../common/Component";
 import SignInPresenter from "./SignInPresenter";
 
 export default class SignInForm {

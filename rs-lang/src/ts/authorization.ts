@@ -15,7 +15,7 @@ const getUser = async (token: string, userId: string) => {
   return false;
 };
 
-const userLoginCheck = async () => {
+const authorization = async () => {
   const token = localStorage.getItem(LocalStorageKey.token);
   const userId = localStorage.getItem(LocalStorageKey.id);
   const userName = localStorage.getItem(LocalStorageKey.name);
@@ -40,4 +40,4 @@ const userLoginCheck = async () => {
   }
 };
 
-export default userLoginCheck;
+export default authorization;
