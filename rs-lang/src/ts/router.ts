@@ -1,3 +1,4 @@
+import AuditionGamePage from "./pages/AuditionGamePage/AuditionGamePage";
 import AuthPage from "./pages/AuthPage/AuthPage";
 import HomePage from "./pages/HomePage/HomePage";
 
@@ -12,6 +13,7 @@ const root = document.querySelector('#root') as HTMLElement;
 const routes = [
   { path: '/', component: HomePage },
   { path: 'auth', component: AuthPage },
+  { path: 'audiocall', component: AuditionGamePage },
 ];
 
 const parseLocation: () => Path = () => {
