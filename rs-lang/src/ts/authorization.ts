@@ -15,10 +15,17 @@ const getUser = async (token: string, userId: string) => {
   return false;
 };
 
+const clearLocalStorage = () => {
+  [LocalStorageKey.token, LocalStorageKey.id, LocalStorageKey.name].forEach((el) => {
+    localStorage.removeItem(el);
+  });
+};
+
 const authorization = async () => {
   const token = localStorage.getItem(LocalStorageKey.token);
   const userId = localStorage.getItem(LocalStorageKey.id);
   const userName = localStorage.getItem(LocalStorageKey.name);
+
   if (token && userId && userName) {
     const isTokenValid = await getUser(token, userId);
     if (isTokenValid) {
@@ -31,12 +38,12 @@ const authorization = async () => {
       signInElem.style.display = 'none';
 
       signOutElem.onclick = () => {
-        [LocalStorageKey.token, LocalStorageKey.id, LocalStorageKey.name].forEach((el) => {
-          localStorage.removeItem(el);
-        });
+        clearLocalStorage();
         window.location.reload();
       };
     }
+  } else {
+    clearLocalStorage();
   }
 };
 
