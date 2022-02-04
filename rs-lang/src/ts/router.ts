@@ -1,5 +1,6 @@
 import authPage from "./pages/AuthPage/AuthPage";
 import homePage from "./pages/HomePage/HomePage";
+import audioCallPage from "./pages/AudioCallPage/AudioCallPage";
 import Page from "./common/Page";
 
 export type Path = {
@@ -18,6 +19,7 @@ const root = document.querySelector('#root') as HTMLElement;
 const routes = [
   { path: '/', component: homePage },
   { path: 'auth', component: authPage },
+  { path: 'audiocall', component: audioCallPage },
 ];
 
 const parseLocation: () => Path = () => {

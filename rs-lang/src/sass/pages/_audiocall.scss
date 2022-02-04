@@ -1,0 +1,45 @@
+.audiocall {
+    margin: 0 auto;
+}
+
+.audiocall-container {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    padding-top: 10vh;
+}
+
+.audiocall-header {
+    text-transform: uppercase;
+    font-size: 40px;
+    letter-spacing: 13px;
+    text-align: center;
+    color: #fff;
+    padding-bottom: 30px;
+}
+
+.audiocall-text {
+    font-size: 24px;
+    text-align: center;
+    color: #fff;
+    padding-bottom: 60px;
+}
+
+.audiocall-start {
+    text-transform: uppercase;
+    font-size: 36px;
+    color: #fff;
+
+    display: block;
+    width: 160px;
+    padding: 15px;
+    border: 1px solid #fff;
+    background: transparent;
+    margin: 0 auto;
+}
+
+.audiocall-start:hover {
+    cursor: pointer;
+    color: #263366;
+    border: 1px solid #263366;
+}
