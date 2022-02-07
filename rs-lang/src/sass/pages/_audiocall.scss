@@ -2,14 +2,16 @@
     margin: 0 auto;
 }
 
-.audiocall-container {
+.audiocall-container,
+.choice-container {
     width: 100%;
     height: auto;
     margin: 0 auto;
     padding-top: 10vh;
 }
 
-.audiocall-header {
+.audiocall-header,
+.choice-header {
     text-transform: uppercase;
     font-size: 40px;
     letter-spacing: 13px;
@@ -25,7 +27,8 @@
     padding-bottom: 60px;
 }
 
-.audiocall-start {
+.audiocall-start,
+.choice-button {
     text-transform: uppercase;
     font-size: 36px;
     color: #fff;
@@ -38,7 +41,15 @@
     margin: 0 auto;
 }
 
-.audiocall-start:hover {
+.choice-buttons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.audiocall-start:hover,
+.choice-button:hover {
     cursor: pointer;
     color: #263366;
     border: 1px solid #263366;
