@@ -1,6 +1,6 @@
 import Component from "../../common/Component";
 import Page from "../../common/Page";
-import AudioCallPresenter from "./AudioCallPresenter";
+import AudioCallView from "./AudioCallView";
 import LevelChoice from "./LevelChoice";
 
 export class AudioCallPage extends Page {
@@ -23,14 +23,14 @@ export class AudioCallPage extends Page {
       pageContainerElement.append(text);
       
       const startButton = new Component('button', 'audiocall-start', 'Начать').node;
-      startButton.addEventListener('click', () => {
+      startButton.addEventListener('click', async () => {
         pageContainer.destroy();
         if (this.currentLevel === undefined) {
           const levelChoicePage = new LevelChoice().node;
           page.append(levelChoicePage);
         } else {
-          let audioCallPresenter = new AudioCallPresenter(this.currentLevel);
-          audioCallPresenter.sendAnswers();
+          let audioCallView = new AudioCallView();
+          await audioCallView.startQuiz(this.currentLevel);
         }
       })
       pageContainerElement.append(startButton);

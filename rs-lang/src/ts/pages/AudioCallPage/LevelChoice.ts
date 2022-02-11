@@ -1,5 +1,5 @@
 import Component from "../../common/Component";
-import AudioCallPresenter from "./AudioCallPresenter";
+import AudioCallView from "./AudioCallView";
 
 export default class LevelChoice {
 
@@ -18,12 +18,11 @@ export default class LevelChoice {
         levelsList.forEach(level => {
             const btn = new Component('button', 'choice-button', level).node;
             choiceButtons.append(btn);
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', async () => {
                 this.currentLevel = btn.innerText;
                 choiceComponent.destroy();
-                let audioCallPresenter = new AudioCallPresenter(this.currentLevel);
-                audioCallPresenter.getData();
-                audioCallPresenter.sendAnswers();
+                let audioCallView = new AudioCallView();
+                await audioCallView.startQuiz(this.currentLevel);
             })
         });
         this.node = choiceContainer;
