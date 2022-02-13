@@ -132,6 +132,24 @@ svg {
 .block-point-svg {
   display: flex;
 }
-.block-point {
+#block-point-inner {
   text-align: center;
+  border: 1px solid black;
+  border-radius: 50px;
+  /*   height: 15px;
+ */
+}
+.red {
+  background-color: rgb(245, 38, 38);
+}
+.orange {
+  background-color: rgb(247, 224, 20);
+}
+.chartreuse {
+  background-color: chartreuse;
+}
+.sprint-results {
+  display: flex;
+  justify-content: center;
+  margin: 8px;
 }

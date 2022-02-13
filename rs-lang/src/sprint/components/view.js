@@ -132,14 +132,14 @@ function changeColorPoint(){
     if(innerPoint.classList.contains('orange'))  innerPoint.classList.remove('orange');
     if(innerPoint.classList.contains('chartreuse'))  innerPoint.classList.remove('chartreuse');
   }
-  if(arrTrueAnsw.length > 3 && arrTrueAnsw.length <= 6){
+  if(arrTrueAnsw.length >= 3 && arrTrueAnsw.length < 6){
     innerPoint.classList.add('red')
   }
- if(arrTrueAnsw.length > 6 && arrTrueAnsw.length <= 9){
+ if(arrTrueAnsw.length >= 6 && arrTrueAnsw.length < 9){
   innerPoint.classList.remove('red')
   innerPoint.classList.add('orange')
 }
-if(arrTrueAnsw.length > 9 ){
+if(arrTrueAnsw.length >= 9 ){
   innerPoint.classList.remove('orange')
   innerPoint.classList.add('chartreuse')
 } 
