@@ -2,6 +2,7 @@ import authPage from "./pages/AuthPage/AuthPage";
 import homePage from "./pages/HomePage/HomePage";
 import audioCallPage from "./pages/AudioCallPage/AudioCallPage";
 import Page from "./common/Page";
+import textBookPage from "./pages/TextBook/TextBook";
 
 export type Path = {
   resource: string;
@@ -20,6 +21,7 @@ const routes = [
   { path: '/', component: homePage },
   { path: 'auth', component: authPage },
   { path: 'audiocall', component: audioCallPage },
+  { path: 'textbook', component: textBookPage },
 ];
 
 const parseLocation: () => Path = () => {

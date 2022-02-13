@@ -1,0 +1,243 @@
+.textbook {
+
+  --group-color: #fff;
+
+  &__header {
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.2em;
+    color: $color5;
+  }
+
+  &__nav {
+    display: flex;
+  }
+
+  &__words {
+    margin: 20px auto;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 400px 400px 400px;
+    grid-gap: 35px 20px;
+
+    @media screen and (max-width: 1300px) {
+      grid-template-columns: 400px 400px;
+    }
+
+    @media screen and (max-width: 870px) {
+      grid-template-columns: 400px;
+    }
+  }
+
+  .word {
+    position: relative;
+    background-color: #fff;
+
+    &__header {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 230px;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+
+    &__audio {
+      display: block;
+      margin-left: 19px;
+      cursor: pointer;
+
+      &:hover {
+        filter: brightness(110%);
+      }
+    }
+
+    &__word-string {
+      font-family: $font2;
+      background-color: var(--group-color);
+      padding: 5px 15px;
+      margin: 10px;
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    &__top-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 20px 10px 15px 20px;
+    }
+
+    &__word-translate {
+      background-color: #fff;
+      font-size: 20px;
+      font-weight: 400;
+      white-space: pre-wrap;
+    }
+
+    .text {
+      margin: 10px 20px 40px;
+
+      p {
+        margin-bottom: 5px;
+      }
+    }
+
+    &__text-example {
+      font-style: italic;
+    }
+
+    &__text-meaning-transl {
+      margin-top: 15px;
+      color: $colorDark;
+    }
+
+    &__text-example-transl{
+      color: $colorDark;
+      font-style: italic;
+    }
+
+    &__btn {
+      all: unset;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      cursor: pointer;
+
+      &_hard {
+        &.active {
+          filter: brightness(0) saturate(100%) invert(83%) sepia(53%) saturate(6867%) hue-rotate(320deg) brightness(88%) contrast(92%);
+
+          &:hover {
+            filter: brightness(0) saturate(100%) invert(83%) sepia(53%) saturate(6867%) hue-rotate(320deg) brightness(100%) contrast(92%);
+          }
+        }
+      }
+
+      &_learned {
+        &.active {
+          filter: brightness(0) saturate(100%) invert(46%) sepia(63%) saturate(311%) hue-rotate(98deg) brightness(89%) contrast(95%);
+          
+          &:hover {
+            filter:  brightness(0) saturate(100%) invert(46%) sepia(63%) saturate(311%) hue-rotate(98deg) brightness(100%) contrast(95%);
+          }
+        }
+      }
+
+      &:hover {
+        filter: brightness(110%);
+      }
+
+      &_learned {
+        right: 55px;
+      }
+
+      &.active {
+        color: green;
+      }
+    }
+  }
+
+}
+
+.location-select {
+  position: relative;
+
+  &:nth-child(2) {
+    flex-grow: 1;
+  }
+
+  &__list {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    z-index: 100;
+    max-height: 80vh;
+    overflow: auto;
+    opacity: 0;
+    visibility: hidden;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgb(151, 150, 150);
+
+    &_group {
+
+      .location-select__item {
+        --decor-color: #fff;
+        position: relative;
+
+        &::before {
+          position: absolute;
+          content: '';
+          height: 8px;
+          width: 8px;
+          top: 17px;
+          left: 13px;
+          transform: rotate(45deg);
+          background-color: var(--decor-color);
+        }
+      }
+    }
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &__item {
+    white-space: nowrap;
+    line-height: 30px;
+    padding: 5px 20px 5px 30px;
+    // width: 163px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(241, 238, 238);
+    }
+  }
+
+  &__button {
+    all: unset;
+    position: relative;
+    padding: 0 15px;
+    margin: 10px;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 42px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+
+    &_group {
+      padding-left: 29px;
+
+      &::before {
+        position: absolute;
+        content: '';
+        height: 8px;
+        width: 8px;
+        top: 17px;
+        left: 13px;
+        transform: rotate(45deg);
+        background-color: var(--group-color);
+      }
+
+      &:hover::before {
+        background-color: #fff;
+      }
+    }
+
+    &:hover {
+      color: #fff;
+      background-color: var(--group-color);
+      border-color: var(--group-color);
+    }
+  }
+}
