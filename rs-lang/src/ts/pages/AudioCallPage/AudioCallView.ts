@@ -109,7 +109,7 @@ export default class AudioCallView {
           await audio.play();
         }); 
         wordItem.append(soundButton);
-        const wordContainer = new Component('p', 'answer-container').node;
+        const wordContainer = new Component('p', 'answer-result-container').node;
         const word = new Component('span', 'answer-word', `${answer.word} -`).node;
         const wordTranslate = new Component('span', 'answer-translate', `${answer.wordTranslate}`).node;
         wordContainer.append(word);
@@ -122,13 +122,15 @@ export default class AudioCallView {
   }
 
   showResult() {
+    const allAnswersContainer = new Component('div', 'all-answers').node;
     if (this.wrongAnswers.length > 0) {
       const wrongAnswersContainer = this.createWordsList(this.wrongAnswers, 'wrong', 'Ошибок');
-      this.gameContainer.append(wrongAnswersContainer);
+      allAnswersContainer.append(wrongAnswersContainer);
     }
     if (this.rightAnswers.length > 0) {
       const rightAnswersContainer = this.createWordsList(this.rightAnswers, 'right', 'Знаю');
-      this.gameContainer.append(rightAnswersContainer);
+      allAnswersContainer.append(rightAnswersContainer);
     }
+    this.gameContainer.append(allAnswersContainer);
   }
 }

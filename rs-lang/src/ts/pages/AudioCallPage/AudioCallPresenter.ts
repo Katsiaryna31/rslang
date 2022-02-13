@@ -36,7 +36,6 @@ export default class AudioCallPresenter {
       this.level = level
       await this.model.getWords(this.level);
       await this.sendAnswers()
-     
     }
 
     async createNextQuestion() {
@@ -46,8 +45,6 @@ export default class AudioCallPresenter {
         this.view.showResult();
       }
     }
-
-   
 
     async sendAnswers() {
       const answers = this.model.getAnswers();
