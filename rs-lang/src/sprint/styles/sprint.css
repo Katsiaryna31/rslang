@@ -1,0 +1,137 @@
+.card {
+  margin: 0 auto;
+  width: 50vw;
+  height: 60vh;
+  background-color: rgba(250, 128, 114, 0.383);
+  margin-top: 100px;
+}
+.btn {
+  width: 150px;
+}
+.btn-group {
+  position: relative;
+  margin-left: 25%;
+  width: 50%;
+  margin-bottom: 30px;
+}
+.card-title,
+.card-text {
+  text-align: center;
+  margin: 10px 0px 10px;
+  font-size: 25px;
+}
+.card-circle-block {
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+svg {
+  height: 30px;
+  width: 30px;
+}
+.png-image-block {
+  margin: 0 auto;
+  margin-top: 50px;
+  height: 250px;
+  display: flex;
+}
+.png-image {
+  width: 80px;
+}
+.sprint-top {
+  width: 70%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.sound-image {
+  margin-left: 49%;
+  width: 20px;
+  cursor: pointer;
+}
+.timer,
+.result {
+  text-align: center;
+  font-weight: 600;
+  font-size: 30px;
+}
+.block-timer,
+.block-result {
+  height: 55px;
+  width: 55px;
+  border: 2px solid red;
+  border-radius: 100px;
+}
+.block-result {
+  border: 2px solid rgb(60, 153, 60);
+}
+.opacity {
+  opacity: 0;
+}
+.button-category {
+  width: 80px;
+  height: 80px;
+  border-radius: 25px;
+  border: 1px solid black;
+}
+.button-category-block {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 50px;
+}
+.results-img {
+  width: 15px;
+  height: 15px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+.results-block {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  scroll-behavior: auto;
+  scrollbar-color: red;
+}
+.engWord {
+  width: 180px;
+  margin-left: 40px;
+  text-align: left;
+}
+.engRus {
+  width: 180px;
+  text-align: left;
+  left: 350px;
+}
+.transr {
+  width: 160px;
+  left: 225px;
+  text-align: left;
+}
+
+.boolenImage {
+  width: 20px;
+  height: 20px;
+  margin-left: 20px;
+}
+.card-bodys {
+  overflow: auto;
+}
+.game-title {
+  font-size: 35px;
+  text-align: center;
+  margin-bottom: 80px;
+  margin-top: 20px;
+}
+.block-point-svg {
+  display: flex;
+}
+.block-point {
+  text-align: center;
+}
