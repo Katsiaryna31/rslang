@@ -11,7 +11,7 @@ export type SignInData = {
 
 class Model {
   async createUser(userData: UserData) {
-    await fetch(`${BASE_LINK}/users`, {
+    const response = await fetch(`${BASE_LINK}/users`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -19,6 +19,7 @@ class Model {
       },
       body: JSON.stringify(userData),
     });
+    return response.status;
   }
 
   async loginUser(user: Omit<UserData, 'name'>) {
@@ -40,6 +41,7 @@ class Model {
 
   saveUserToLocalStorage(data: SignInData) {
     localStorage.setItem(LocalStorageKey.token, data.token);
+    localStorage.setItem(LocalStorageKey.refreshToken, data.refreshToken);
     localStorage.setItem(LocalStorageKey.id, data.userId);
     localStorage.setItem(LocalStorageKey.name, data.name);
   }

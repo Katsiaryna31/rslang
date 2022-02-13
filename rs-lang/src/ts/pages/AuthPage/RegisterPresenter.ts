@@ -13,7 +13,12 @@ export default class RegisterPresenter {
   }
 
   async onSubmit(userData: UserData) {
-    await this.model.createUser(userData);
-    window.history.go();
+    const response = await this.model.createUser(userData);
+    if (response === 417) {
+      this.view.btn.disabled = false;
+      this.view.showInvalidEmailMessage();
+    } else {
+      window.history.go();
+    }
   }
 }
