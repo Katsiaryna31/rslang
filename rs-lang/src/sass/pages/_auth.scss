@@ -41,7 +41,6 @@
 
   &__input {
     display: block;
-    // margin: 10px auto 18px;
     width: 100%;
     height: 45px;
     text-indent: 15px;
@@ -83,6 +82,10 @@
     opacity: 0;
     transition: all 0.3s ease-in-out;
 
+    &_register {
+      margin-top: 10px;
+    }
+
     &.visible {
       visibility: visible;
       opacity: 1;
@@ -95,9 +98,7 @@
   left: -1%;
   right: -1%;
   top: 47px;
-  // width: 90%;
   padding: 5px;
-  // border-radius: 7px;
   font-size: 14px;
   box-shadow: 0px 0px 3px #bb1919;
   background-color: #ffffff;
@@ -107,8 +108,3 @@
   opacity: 0;
   transition: all 0.3s ease-in-out;
 }
-
-// .invalid-data-message.visible {
-//   visibility: visible;
-//   opacity: 1;
-// }

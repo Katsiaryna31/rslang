@@ -29,7 +29,7 @@ export class AuthPage extends Page {
       signInLink.classList.remove('active');
       registerLink.classList.add('active');
     };
-    // document.body.classList.add('body_level1');
+    document.body.className = 'body';
     return container;
   }
 }

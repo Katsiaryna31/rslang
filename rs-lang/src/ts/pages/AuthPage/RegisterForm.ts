@@ -6,11 +6,14 @@ export default class RegisterForm {
 
   timer: ReturnType<typeof setTimeout> = setTimeout(() => {});
 
+  btn = new Component<HTMLInputElement>('button', 'auth__btn', 'Зарегистрироваться').node;
+
+  private invalidEmailMessage = new Component('p', 'auth__error auth__error_register', 'Пользователь с данным e-mail уже существует').node;
+
   public node: HTMLElement;
 
   constructor() {
-    const form = new Component('form', 'auth__form', '', { style: 'display: none;' }).node;
-    const btn = new Component<HTMLInputElement>('button', 'auth__btn', 'Зарегистрироваться').node;
+    this.node = new Component('form', 'auth__form', '', { style: 'display: none;' }).node;
 
     const nameInput = new Component<HTMLInputElement>(
       'input',
@@ -58,10 +61,10 @@ export default class RegisterForm {
         this.timer = setTimeout(this.checkValidity, 800, el);
       });
       inputContainer.append(el, errorMessage);
-      form.append(inputContainer);
+      this.node.append(inputContainer);
     });
 
-    btn.onclick = (e) => {
+    this.btn.onclick = (e) => {
       e.preventDefault();
       inputs.forEach(this.checkValidity);
       if (inputs.every(this.checkValidity)) {
@@ -70,13 +73,12 @@ export default class RegisterForm {
           email: emailInput.value,
           password: passwordInput.value,
         };
-        btn.disabled = true;
+        this.btn.disabled = true;
         this.presenter.onSubmit(userData);
       }
     };
 
-    form.append(btn);
-    this.node = form;
+    this.node.append(this.btn, this.invalidEmailMessage);
   }
 
   checkValidity(input: HTMLInputElement) {
@@ -86,5 +88,9 @@ export default class RegisterForm {
     }
     input.classList.remove('invalid');
     return true;
+  }
+
+  showInvalidEmailMessage() {
+    this.invalidEmailMessage.classList.add('visible');
   }
 }
