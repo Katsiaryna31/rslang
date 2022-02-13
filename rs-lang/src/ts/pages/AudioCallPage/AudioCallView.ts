@@ -14,8 +14,8 @@ export default class AudioCallView {
 
   }
 
-  async startQuiz(level: string) {
-    await this.presenter.createQuiz(level);
+  async startQuiz(level: string, page: string) {
+    await this.presenter.createQuiz(level, page);
   }
 
   async displayQuestion(question: Word) {
@@ -47,11 +47,13 @@ export default class AudioCallView {
           this.rightAnswers.push(answer);
           this.onSelectAnswer('right');
           this.showAnswer(rightAnswer);
+          this.presenter.wordStatisticUpdate(answer.id, {'wins': '1', 'fails': '0'})
         } else {
           this.wrongAnswers.push(answer);
           answerEl.style.textDecoration = 'line-through';
           this.onSelectAnswer('wrong');
           this.showAnswer(rightAnswer);
+          this.presenter.wordStatisticUpdate(answer.id, {'wins': '0', 'fails': '1'})
         }
       })
     });
@@ -59,6 +61,7 @@ export default class AudioCallView {
     dontKnowButton.addEventListener('click' , () => {
       this.onSelectAnswer('wrong');
       this.showAnswer(rightAnswer);
+      this.presenter.wordStatisticUpdate(rightAnswer.id, {'wins': '0', 'fails': '1'})
     });
     this.gameContainer.append(questionContainer);
     this.gameContainer.append(answersContainer);
