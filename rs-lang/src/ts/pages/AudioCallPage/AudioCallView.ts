@@ -1,6 +1,7 @@
 import Component from "../../common/Component";
-import { shuffle } from "../../common/shuffleArray";
-import AudioCallPresenter, { Word, Words } from './AudioCallPresenter';
+import { shuffle } from "../../common/utils";
+import { Word, Words } from "../../common/wordInterfaces";
+import AudioCallPresenter from './AudioCallPresenter';
 
 
 export default class AudioCallView {

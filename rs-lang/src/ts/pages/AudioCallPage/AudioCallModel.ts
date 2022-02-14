@@ -1,5 +1,6 @@
+import { Words } from "../../common/wordInterfaces";
 import { BASE_LINK } from "../../settings";
-import { Words } from "./AudioCallPresenter";
+
 
 export default class AudioCallModel {
     private answersPerQuestion: number = 5;

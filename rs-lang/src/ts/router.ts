@@ -1,6 +1,7 @@
 import authPage from "./pages/AuthPage/AuthPage";
 import homePage from "./pages/HomePage/HomePage";
 import audioCallPage from "./pages/AudioCallPage/AudioCallPage";
+import sprintPage from "./pages/SprintPage/SprintPage";
 import Page from "./common/Page";
 import textBookPage from "./pages/TextBook/TextBook";
 
@@ -21,6 +22,7 @@ const routes = [
   { path: '/', component: homePage },
   { path: 'auth', component: authPage },
   { path: 'audiocall', component: audioCallPage },
+  { path: 'sprint', component: sprintPage },
   { path: 'textbook', component: textBookPage },
 ];
 
