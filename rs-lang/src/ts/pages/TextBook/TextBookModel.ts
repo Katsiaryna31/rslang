@@ -121,24 +121,23 @@ class TextBookModel {
       return content[0]['paginatedResults'];
   }
 
-  // async getLearnedAndHardWords(page: number, group: number) {
-  //   const params = new URLSearchParams({
-  //     page: '0',
-  //     wordsPerPage: '20',
-  //     filter: `{"$and":[{"$or":[{"userWord.difficulty":"learned"}, {"userWord.difficulty":"hard"}]},{"page":${page}}, {"group":${group}}]}`,
-  //   }).toString();
+  async getLearnedAndHardWords(page: number, group: number) {
+    const params = new URLSearchParams({
+      page: '0',
+      wordsPerPage: '20',
+      filter: `{"$and":[{"$or":[{"userWord.difficulty":"learned"}, {"userWord.difficulty":"hard"}]},{"page":${page}}, {"group":${group}}]}`,
+    }).toString();
 
-  //   const response = await fetch(`${BASE_LINK}/users/${userId}/aggregatedWords?${params}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Authorization': `Bearer ${token}`,
-  //       'Accept': 'application/json',
-  //     }
-  //   });
-  //   const content: Res[] = await response.json();
-  //   console.log(content);
-  //     return content[0]['paginatedResults'];
-  // }
+    const response = await fetch(`${BASE_LINK}/users/${userId}/aggregatedWords?${params}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+      }
+    });
+    const content: Res[] = await response.json();
+      return content[0]['paginatedResults'];
+  }
 }
 
 export default new TextBookModel();

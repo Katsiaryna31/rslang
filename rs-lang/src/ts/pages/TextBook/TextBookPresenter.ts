@@ -1,5 +1,5 @@
 import { FILES_LINK } from "../../settings";
-import { TextBookPage } from "./TextBook";
+import { TextBookPage, textbookSettings } from "./TextBook";
 import TextBookModel, { WordData } from "./TextBookModel";
 
 export default class TextBookPresenter {
@@ -12,12 +12,14 @@ export default class TextBookPresenter {
   }
 
   async onPageSelect(chapter: number, page: number) {
-    const data = await this.model.getWords(chapter, page); 
+    const data = await this.model.getWords(chapter, page);
+    this.view.gameSelect.disabled = false; 
     this.view.displayWords(data);
   }
 
   async onHardWordsPageSelect() {
     const data = await this.model.getHardWords();
+    this.view.gameSelect.disabled = data.length ? false : true; 
     this.view.displayHardWords(data);
   }
 
@@ -41,6 +43,32 @@ export default class TextBookPresenter {
   async getLearnedWords() {
     const data = await this.model.getLearnedWords();
     return data;
+  }
+
+  async checkCurrentPage() {
+    const learnedAndHardWords = await this.model.getLearnedAndHardWords(this.view.pageNum - 1, this.view.groupNum - 1);
+    const listItem = this.view.pagesArr[this.view.pageNum - 1];
+    if (learnedAndHardWords.length === 20) {
+      this.view.fullPageSign.classList.add('active');
+      this.view.gameSelect.disabled = true;
+      listItem.classList.add('learned');
+    } else {
+      this.view.fullPageSign.classList.remove('active');
+      this.view.gameSelect.disabled = false;
+      listItem.classList.remove('learned');
+    }
+  }
+
+  async checkPagesList() {
+    textbookSettings.pages.forEach(async (pageNum) => {
+      const learnedAndHardWords = await this.model.getLearnedAndHardWords(pageNum - 1, this.view.groupNum - 1);
+      const listItem = this.view.pagesArr[pageNum - 1];
+      if (learnedAndHardWords.length === 20) {
+        listItem.classList.add('learned');
+      } else {
+        listItem.classList.remove('learned');
+      }
+    })
   }
 
   onPlay(data: WordData) {

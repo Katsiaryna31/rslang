@@ -3,7 +3,7 @@
   --group-color: #fff;
 
   &__header {
-    margin-bottom: 15px;
+    margin: 0 0 15px 0px;
     text-transform: uppercase;
     font-weight: 700;
     font-size: 22px;
@@ -13,27 +13,57 @@
 
   &__nav {
     display: flex;
+    align-items: center;
+    padding: 10px 20px 0;
   }
 
   &__words {
+    width: 100%;
     margin: 20px auto;
+    padding: 0 30px;
     justify-content: center;
     display: grid;
-    grid-template-columns: 400px 400px 400px;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 35px 20px;
 
-    @media screen and (max-width: 1300px) {
+    @media screen and (max-width: 1200px) {
       grid-template-columns: 400px 400px;
     }
 
-    @media screen and (max-width: 870px) {
-      grid-template-columns: 400px;
+    @media screen and (max-width: 970px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (max-width: 700px) {
+      grid-template-columns: 320px;
+    }
+  }
+
+  &__full-page {
+    flex-grow: 1;
+    text-align: center;
+    font-family: $font2;
+    color: $color5;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 0.03em;
+    visibility: hidden;
+    opacity: 0;
+
+    &.active {
+      visibility: visible;
+      opacity: 1;
     }
   }
 
   .word {
     position: relative;
     background-color: #fff;
+    transition: all 0.3s ease-in-out;
+
+    &.dark {
+      filter: grayscale(0.4) brightness(0.85);
+    }
 
     &__header {
       background-size: cover;
@@ -148,16 +178,12 @@
 .location-select {
   position: relative;
 
-  &:nth-child(2) {
-    flex-grow: 1;
-  }
-
   &__list {
     position: absolute;
     top: 0;
     left: 5px;
     z-index: 100;
-    max-height: 80vh;
+    max-height: 65vh;
     overflow: auto;
     opacity: 0;
     visibility: hidden;
@@ -169,17 +195,9 @@
       .location-select__item {
         --decor-color: #fff;
         position: relative;
-
-        &::before {
-          position: absolute;
-          content: '';
-          height: 8px;
-          width: 8px;
-          top: 17px;
-          left: 13px;
-          transform: rotate(45deg);
-          background-color: var(--decor-color);
-        }
+        color: var(--decor-color);
+        font-weight: 700;
+        letter-spacing: 0.1em;
       }
     }
 
@@ -190,14 +208,36 @@
   }
 
   &__item {
+    position: relative;
     white-space: nowrap;
     line-height: 30px;
-    padding: 5px 20px 5px 30px;
-    // width: 163px;
+    padding: 5px 19px 5px 19px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     cursor: pointer;
+    color: $color2;
 
     &:hover {
       background-color: rgb(241, 238, 238);
+    }
+
+    &_page {
+      padding-right: 45px;
+
+      &.learned {
+
+        &::before {
+          position: absolute;
+          content: '';
+          height: 8px;
+          width: 15px;
+          top: 14px;
+          left: 48px;
+          transform: rotate(-45deg);
+          border-bottom: 3px solid green;
+          border-left: 3px solid green;
+        }
+      }
     }
   }
 
@@ -234,10 +274,16 @@
       }
     }
 
-    &:hover {
+    &:enabled:hover {
       color: #fff;
       background-color: var(--group-color);
       border-color: var(--group-color);
+    }
+
+    &:disabled {
+      cursor: default;
+      color: rgb(243, 241, 240);
+      border-color: rgb(243, 241, 240);
     }
   }
 }

@@ -41,28 +41,33 @@ export default class WordElemAuthorized extends WordElem{
       hardWordBtn.classList.add('active');
     } else if (learnedWords.some((word) => word._id === data.id)) {
       learnedWordBtn.classList.add('active');
+      this.node.classList.add('dark');
     }
 
-    hardWordBtn.onclick = () => {
+    hardWordBtn.onclick = async () => {
       if (!hardWordBtn.classList.contains('active')) {
         hardWordBtn.classList.add('active');
         learnedWordBtn.classList.remove('active');
-        this.presenter.wordDifficultyUpdate(hardWordBtn, data.id, 'hard');
+        await this.presenter.wordDifficultyUpdate(hardWordBtn, data.id, 'hard');
       } else {
         hardWordBtn.classList.remove('active');
-        this.presenter.wordDifficultyUpdate(hardWordBtn, data.id, 'normal');
+        await this.presenter.wordDifficultyUpdate(hardWordBtn, data.id, 'normal');
       }
+      this.presenter.checkCurrentPage();
     }
 
-    learnedWordBtn.onclick = () => {
+    learnedWordBtn.onclick = async () => {
       if (!learnedWordBtn.classList.contains('active')) {
         hardWordBtn.classList.remove('active');
         learnedWordBtn.classList.add('active');
-        this.presenter.wordDifficultyUpdate(learnedWordBtn, data.id, 'learned');
+        this.node.classList.add('dark');
+        await this.presenter.wordDifficultyUpdate(learnedWordBtn, data.id, 'learned');
       } else {
         learnedWordBtn.classList.remove('active');
-        this.presenter.wordDifficultyUpdate(learnedWordBtn, data.id, 'normal');
+        this.node.classList.remove('dark');
+        await this.presenter.wordDifficultyUpdate(learnedWordBtn, data.id, 'normal');
       }
+      this.presenter.checkCurrentPage();
     }
 
     this.node.append(hardWordBtn, learnedWordBtn);
