@@ -22,7 +22,7 @@ export default class LevelChoice {
                 this.currentLevel = btn.innerText;
                 choiceComponent.destroy();
                 let audioCallView = new AudioCallView();
-                await audioCallView.startQuiz(this.currentLevel);
+                await audioCallView.startQuiz(this.currentLevel, 'any');
             })
         });
         this.node = choiceContainer;

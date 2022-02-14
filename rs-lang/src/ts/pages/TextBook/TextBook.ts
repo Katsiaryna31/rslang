@@ -1,6 +1,7 @@
 import Component from "../../common/Component";
 import Page from "../../common/Page";
 import { LocalStorageKey } from "../../settings";
+import { AudioCallPage } from "../AudioCallPage/AudioCallPage";
 import { WordData } from "./TextBookModel";
 import TextBookPresenter from "./TextBookPresenter";
 import WordElem from "./WordElem";
@@ -161,6 +162,16 @@ export class TextBookPage extends Page {
     const audioсallBtn = new Component('li', 'location-select__item', `Аудиовызов`).node;
     const sptintBtn = new Component('li', 'location-select__item', `Спринт`).node;
     list.append(audioсallBtn, sptintBtn);
+
+    audioсallBtn.onclick = () => {
+      const root = document.querySelector('#root') as HTMLElement;
+      const location = this.getLocation();
+      const audioCallGame = new AudioCallPage((location.group - 1).toString(), (location.page - 1).toString());
+      root.innerHTML = '';
+      history.pushState('', '', '#/audiocall');
+      const pageElement = audioCallGame.render();
+      root.append(pageElement);
+     }
 
     this.gameSelect.onclick = (e) => {
       list.classList.add('active');
