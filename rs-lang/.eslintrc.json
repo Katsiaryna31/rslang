@@ -25,5 +25,4 @@
           "@typescript-eslint/quotes": 0,
           "import/no-cycle": 0
       }
-      
-  }
+}
