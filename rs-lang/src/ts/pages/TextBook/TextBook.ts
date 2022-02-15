@@ -2,6 +2,7 @@ import Component from "../../common/Component";
 import Page from "../../common/Page";
 import { LocalStorageKey } from "../../settings";
 import { SprintPage } from "../SprintPage/SprintPage";
+import { AudioCallPage } from "../AudioCallPage/AudioCallPage";
 import { WordData } from "./TextBookModel";
 import TextBookPresenter from "./TextBookPresenter";
 import WordElem from "./WordElem";
@@ -166,7 +167,17 @@ export class TextBookPage extends Page {
     sptintBtn.onclick = () => {
       const root = document.querySelector('#root') as HTMLElement;
       const location = this.getLocation();
-      const audioCallGame = new SprintPage((location.group - 1).toString(), (location.page - 1).toString());
+      const sprintGame = new SprintPage((location.group - 1).toString(), (location.page - 1).toString());
+      root.innerHTML = '';
+      history.pushState('', '', '#/sprint');
+      const pageElement = sprintGame.render();
+      root.append(pageElement);
+    }
+
+    audioсallBtn.onclick = () => {
+      const root = document.querySelector('#root') as HTMLElement;
+      const location = this.getLocation();
+      const audioCallGame = new AudioCallPage((location.group - 1).toString(), (location.page - 1).toString());
       root.innerHTML = '';
       history.pushState('', '', '#/audiocall');
       const pageElement = audioCallGame.render();
