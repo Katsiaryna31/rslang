@@ -42,9 +42,8 @@
   &__full-page {
     flex-grow: 1;
     text-align: center;
-    font-family: $font2;
     color: $color5;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 30px;
     letter-spacing: 0.03em;
     visibility: hidden;
@@ -222,7 +221,8 @@
     }
 
     &_page {
-      padding-right: 45px;
+      padding-right: 35px;
+      padding-left: 30px;
 
       &.learned {
 
@@ -230,9 +230,10 @@
           position: absolute;
           content: '';
           height: 8px;
-          width: 15px;
-          top: 14px;
-          left: 48px;
+          width: 12px;
+          top: 16px;
+          // left: 48px;
+          left: 11px;
           transform: rotate(-45deg);
           border-bottom: 3px solid green;
           border-left: 3px solid green;
@@ -251,7 +252,7 @@
     border-radius: 30px;
     font-weight: 700;
     font-size: 18px;
-    line-height: 42px;
+    line-height: 46px;
     letter-spacing: 0.1em;
     cursor: pointer;
 
@@ -263,7 +264,7 @@
         content: '';
         height: 8px;
         width: 8px;
-        top: 17px;
+        top: 19px;
         left: 13px;
         transform: rotate(45deg);
         background-color: var(--group-color);

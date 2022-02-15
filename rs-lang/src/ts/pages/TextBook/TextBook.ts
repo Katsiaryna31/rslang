@@ -11,7 +11,7 @@ import WordElemHard from "./WordElemHard";
 export const textbookSettings = {
   chapters: [...Array(6)].map((el, ind) => ind + 1),
   pages: [...Array(30)].map((el, ind) => ind + 1),
-  groupColors: ['#fff', '#62a3a7', '#407da4', '#0266e7', '#00367a', '#4332a9', '#2a2077', '#d86060'],
+  groupColors: ['#fff', '#62a3a7', '#407da4', '#0d60a9', '#1444cd', '#4332a9', '#2a2077', '#d86060'],
   hardWordsGroupNum: 7,
   games: ['Аудиовызов', 'Спринт'],
 }

@@ -1,4 +1,4 @@
-import { FILES_LINK } from "../../settings";
+import { FILES_LINK, LocalStorageKey } from "../../settings";
 import { TextBookPage, textbookSettings } from "./TextBook";
 import TextBookModel, { WordData } from "./TextBookModel";
 
@@ -46,6 +46,7 @@ export default class TextBookPresenter {
   }
 
   async checkCurrentPage() {
+    if (!localStorage.getItem(LocalStorageKey.id)) return;
     const learnedAndHardWords = await this.model.getLearnedAndHardWords(this.view.pageNum - 1, this.view.groupNum - 1);
     const listItem = this.view.pagesArr[this.view.pageNum - 1];
     if (learnedAndHardWords.length === 20) {
@@ -60,6 +61,7 @@ export default class TextBookPresenter {
   }
 
   async checkPagesList() {
+    if (!localStorage.getItem(LocalStorageKey.id)) return;
     textbookSettings.pages.forEach(async (pageNum) => {
       const learnedAndHardWords = await this.model.getLearnedAndHardWords(pageNum - 1, this.view.groupNum - 1);
       const listItem = this.view.pagesArr[pageNum - 1];
