@@ -23,7 +23,7 @@ export default class SprintLevel {
                 this.currentLevel = btn.innerText;
                 choiceComponent.destroy();
                 let sprintView = new SprintView();
-                await sprintView.startQuiz(this.currentLevel);
+                await sprintView.startQuiz(this.currentLevel, 'any');
             })
         });
         this.node = choiceContainer;

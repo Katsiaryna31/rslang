@@ -30,9 +30,7 @@ export default class AudioCallPresenter {
 
     async sendAnswers() {
       const answers = this.model.getAnswers();
-      console.log(answers)
       const rightAnswer = this.model.rightAnswers[this.model.rightAnswers.length -1];
-      console.log(rightAnswer)
       await this.view.displayAnswers(answers, rightAnswer);
     }
 }

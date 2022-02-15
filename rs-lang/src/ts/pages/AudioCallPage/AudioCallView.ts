@@ -1,5 +1,5 @@
 import Component from "../../common/Component";
-import { shuffle } from "../../common/utils";
+import { createPopUp, shuffle } from "../../common/utils";
 import { Word, Words } from "../../common/wordInterfaces";
 import AudioCallPresenter from './AudioCallPresenter';
 
@@ -20,6 +20,12 @@ export default class AudioCallView {
   }
 
   async displayQuestion(question: Word) {
+    const pageWrapper = <HTMLDivElement>document.querySelector('.audiocall-wrapper');
+    const closePageButton = new Component('button', 'close-audiocall', '×').node;
+    closePageButton.addEventListener('click', () => {
+      createPopUp('audiocall');
+    })
+    pageWrapper.append(closePageButton);
     const questionContainer = <HTMLDivElement>document.querySelector('.question-container');
     const questionText = new Component('div', 'question-text-container').node;
     const soundButton = new Component('button', 'question-button').node;
@@ -105,7 +111,7 @@ export default class AudioCallView {
         const soundButton = new Component('button', 'answer-sound-button').node;
         const soundImage = new Component('img', 'answer-sound-image', '', {src: '../../images/sound.svg', width: '30', height: '30'}).node;
         soundButton.append(soundImage);
-        const audio = new Audio(`https://rss-words-3.herokuapp.com/${answer.audio}`);
+        const audio = new Audio(`https://rsschool-learnwords.herokuapp.com/${answer.audio}`);
         soundButton.addEventListener('click', async () => {
           await audio.play();
         }); 

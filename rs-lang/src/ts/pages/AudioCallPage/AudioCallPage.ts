@@ -13,11 +13,12 @@ export class AudioCallPage extends Page {
 
     render() {
       document.body.className = 'body body_level3';
+      const pageWrapper = new Component('div', 'audiocall-wrapper', '').node;
       const page = new Component('div', 'audiocall', '').node;
-
+      pageWrapper.append(page);
       const pageContainer = new Component('div', 'audiocall-container', '');
       const pageContainerElement = pageContainer.node;
-      const header = new Component('p', 'audiocall-header', 'Аудиовызов').node;
+      const header = new Component('p', 'game-header', 'Аудиовызов').node;
       pageContainerElement.append(header);
       const text = new Component('p', 'audiocall-text', 'Тренировка улучшает восприятие речи на слух.').node;
       pageContainerElement.append(text);
@@ -35,7 +36,7 @@ export class AudioCallPage extends Page {
       })
       pageContainerElement.append(startButton);
       page.append(pageContainerElement)
-      return page;
+      return pageWrapper;
     }  
   }
   

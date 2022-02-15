@@ -1,9 +1,38 @@
+.sprint-wrapper {
+  position: relative;
+}
+
+.sprint {
+  margin: 0 auto;
+  color: #fff;
+}
+
+.close-sprint {
+  position: absolute;
+  top: -50px;
+  right: 10px;
+  color: #fff;
+  background: transparent;
+  font-size: 50px;
+}
+
+.close-sprint:hover {
+  cursor: pointer;
+  color: #263366;
+}
+
+.sprint-container {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    padding-top: 5vh;
+}
+
 .card {
   margin: 0 auto;
-  width: 50vw;
+  width: 100%;
   height: 60vh;
-  background-color: rgba(250, 128, 114, 0.383);
-  margin-top: 100px;
+  margin-top: 50px;
 }
 .btn {
   width: 150px;
@@ -13,6 +42,8 @@
   margin-left: 25%;
   width: 50%;
   margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
 }
 .card-title,
 .card-text {
@@ -33,8 +64,8 @@ svg {
   width: 30px;
 }
 .png-image-block {
+  width: 50%;
   margin: 0 auto;
-  margin-top: 50px;
   height: 250px;
   display: flex;
 }
@@ -48,17 +79,20 @@ svg {
   margin: 0 auto;
   margin-top: 10px;
 }
-.sound-image {
+
+#sound-image {
   margin-left: 49%;
   width: 20px;
   cursor: pointer;
 }
+
 .timer,
 .result {
   text-align: center;
   font-weight: 600;
   font-size: 30px;
 }
+
 .block-timer,
 .block-result {
   height: 55px;
@@ -88,7 +122,6 @@ svg {
 .results-img {
   width: 15px;
   height: 15px;
-  margin-left: 15px;
   cursor: pointer;
 }
 .results-block {
@@ -152,4 +185,40 @@ svg {
   display: flex;
   justify-content: center;
   margin: 8px;
+}
+
+.sprint-results-item {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.result-item-text {
+  display: flex;
+  justify-content: flex-start;
+} 
+
+.sprint-results-button {
+  background: transparent;
+  border: none;
+  padding: 5px;
+}
+
+.sprint-results-button:hover {
+  background: #263366;
+  border-radius: 50%;
+}
+
+.btn-answer {
+  background: transparent;
+  color: #fff;
+  text-transform: uppercase;
+  border: 1px solid #fff;
+  padding: 5px 10px;
+}
+
+.btn-answer:hover {
+  cursor: pointer;
+  color: #263366;
+  border: 1px solid #263366;
 }
