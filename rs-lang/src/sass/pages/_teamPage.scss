@@ -22,13 +22,14 @@ body {
 
 .team-cards {
   display: flex;
+  justify-content: space-around;
 }
 
 .team-page-block {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%;
+  width: 28%;
   height: 55vh;
   border: #263366 2px solid;
   padding: 15px;
