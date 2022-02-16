@@ -2,9 +2,14 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 350px;
   background-color: $color1;
   font-family: $font3;
   transition: all 0.5s ease-in-out;
+
+  &.overflow-hidden {
+    overflow: hidden;
+  }
 
   &_level1 {
     background-color: #366f8d;
@@ -26,7 +31,15 @@
 .wrapper {
   max-width: 1440px;
   min-height: 100%;
-  padding: 0 30px;
+  padding: 0 50px;
   margin: 0 auto;
   overflow: hidden;
+
+  @media screen and (max-width: 880px) {
+    padding: 0 25px;
+  }
+
+  @media screen and (max-width: 700px) {
+    padding: 0 15px;
+  }
 }

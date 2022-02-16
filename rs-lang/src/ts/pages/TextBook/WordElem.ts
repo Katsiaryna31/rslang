@@ -12,6 +12,7 @@ const createAudioImg = () => `
 
 export default class WordElem {
   public node: HTMLElement;
+  protected text = new Component('div', 'text').node;
 
   constructor(
     data: WordData,
@@ -28,14 +29,13 @@ export default class WordElem {
     audio.onclick = () => this.presenter.onPlay(data);
     topRow.append(wordTranslate, audio);
     header.append(wordStr);
-    const text = new Component('div', 'text').node;
-    text.innerHTML = `
+    this.text.innerHTML = `
     <p class="word__text-meaning">${data.textMeaning}</p>
     <p class="word__text-example">${data.textExample}</p>
     <p class="word__text-meaning-transl">${data.textMeaningTranslate}</p>
     <p class="word__text-example-transl">${data.textExampleTranslate}</p>
     `;
 
-    this.node.append(header, topRow, text);
+    this.node.append(header, topRow, this.text);
   }
 }
