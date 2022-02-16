@@ -2,7 +2,7 @@
 import { Words } from "../../common/wordInterfaces";
 import { BASE_LINK, LocalStorageKey } from "../../settings";
 import { UserWord } from "../TextBook/TextBookModel";
-import { Optional, Words } from "./AudioCallPresenter";
+import { Optional} from "./AudioCallPresenter";
 
 
 const userId = localStorage.getItem(LocalStorageKey.id) || '';
