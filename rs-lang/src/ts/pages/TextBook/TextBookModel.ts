@@ -15,12 +15,19 @@ export interface WordData {
   "transcription": string,
   "wordTranslate": string,
   "textMeaningTranslate": string,
-  "textExampleTranslate": string
+  "textExampleTranslate": string,
+  userWord?: UserWord,
 };
 
 export interface UserWord {
-  difficulty?: string,
-  optional?: Record<string, string>,
+  difficulty: string,
+  optional: {
+    wins: number,
+    fails: number,
+    straightWins: number,
+    lastAnswer: string,
+    playedInGame: boolean,
+  },
 }
 
 export interface Res {
@@ -102,11 +109,11 @@ class TextBookModel {
     return content[0]['paginatedResults'];
   }
 
-  async getLearnedWords() {
+  async getUserWords(group: number, page: number) {
     const params = new URLSearchParams({
       page: '0',
-      wordsPerPage: '3600',
-      filter: '{"userWord.difficulty":"learned"}',
+      wordsPerPage: '20',
+      filter: `{"$and":[{"page":${page}}, {"group":${group}}]}`,
     }).toString();
 
     const response = await fetch(`${BASE_LINK}/users/${userId}/aggregatedWords?${params}`, {
@@ -118,27 +125,26 @@ class TextBookModel {
     });
 
     const content: Res[] = await response.json();
-      return content[0]['paginatedResults'];
+    return content[0]['paginatedResults'];
   }
 
-  // async getLearnedAndHardWords(page: number, group: number) {
-  //   const params = new URLSearchParams({
-  //     page: '0',
-  //     wordsPerPage: '20',
-  //     filter: `{"$and":[{"$or":[{"userWord.difficulty":"learned"}, {"userWord.difficulty":"hard"}]},{"page":${page}}, {"group":${group}}]}`,
-  //   }).toString();
+  async getLearnedAndHardWords(page: number, group: number) {
+    const params = new URLSearchParams({
+      page: '0',
+      wordsPerPage: '20',
+      filter: `{"$and":[{"$or":[{"userWord.difficulty":"learned"}, {"userWord.difficulty":"hard"}]},{"page":${page}}, {"group":${group}}]}`,
+    }).toString();
 
-  //   const response = await fetch(`${BASE_LINK}/users/${userId}/aggregatedWords?${params}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Authorization': `Bearer ${token}`,
-  //       'Accept': 'application/json',
-  //     }
-  //   });
-  //   const content: Res[] = await response.json();
-  //   console.log(content);
-  //     return content[0]['paginatedResults'];
-  // }
+    const response = await fetch(`${BASE_LINK}/users/${userId}/aggregatedWords?${params}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+      }
+    });
+    const content: Res[] = await response.json();
+      return content[0]['paginatedResults'];
+  }
 }
 
 export default new TextBookModel();

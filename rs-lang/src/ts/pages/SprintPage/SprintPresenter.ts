@@ -30,7 +30,7 @@ export default class SprintPresenter {
   }
 
   timer = () => {
-    let sec: number = 21;
+    let sec: number = 61;
     let timeT = <HTMLParagraphElement>document.querySelector('.timer');
     let sec_timer = setInterval(() => {
         if(sec > 0){

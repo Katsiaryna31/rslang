@@ -14,6 +14,7 @@ export default class WordElemHard extends WordElem{
     protected presenter: TextBookPresenter,
   ) {
     super(data, presenter);
+    this.text.classList.add('text_auth');
     const deleteWordBtn = new Component<HTMLInputElement>('button', 'word__btn word__btn_delete').node;
     deleteWordBtn.innerHTML = createBookMarkImg();
     this.node.append(deleteWordBtn);

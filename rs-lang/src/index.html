@@ -10,8 +10,10 @@
     <header class="header">
       <div class="wrapper">
         <div class="header__container">
-          <a href="#/" class="logo header__logo">RSLang</a>
-          <nav class="nav header__nav">
+          <div class="logo header__logo">
+            <a href="#/" class="logo__text">RSLang</a>
+          </div>
+          <nav class="nav header__nav" id="nav">
             <ul class="nav__list">
               <li class="nav__item">
                 <a href="#/textbook/1/1" class="nav__link">Учебник</a>
@@ -31,8 +33,9 @@
             </ul>
           </nav>
           <div class="user-name"></div>
-          <div class="sign-out">Выход</div>
-          <a href="#/auth" class="sign-in">Вход</a>
+          <div class="sign-out"></div>
+          <a href="#/auth" class="sign-in"></a>
+          <div class="burger" id="burger"></div>
         </div>
       </div>
     </header>
