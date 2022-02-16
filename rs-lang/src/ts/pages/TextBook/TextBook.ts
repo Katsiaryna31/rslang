@@ -174,7 +174,7 @@ export class TextBookPage extends Page {
     const sprintBtn = new Component('li', 'location-select__item', `Спринт`).node;
     list.append(audioсallBtn, sprintBtn);
 
-    sptintBtn.onclick = () => {
+    sprintBtn.onclick = () => {
       const root = document.querySelector('#root') as HTMLElement;
       const location = this.getLocation();
       const sprintGame = new SprintPage((location.group - 1).toString(), (location.page - 1).toString());
