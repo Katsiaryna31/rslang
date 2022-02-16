@@ -1,3 +1,21 @@
+.audiocall-wrapper {
+    position: relative;
+  }
+
+  .close-audiocall {
+    position: absolute;
+    top: -50px;
+    right: 10px;
+    color: #fff;
+    background: transparent;
+    font-size: 50px;
+  }
+
+  .close-audiocall:hover {
+    cursor: pointer;
+    color: #263366;
+  }
+
 .audiocall {
     margin: 0 auto;
 }
@@ -7,10 +25,10 @@
     width: 100%;
     height: auto;
     margin: 0 auto;
-    padding-top: 10vh;
+    padding-top: 5vh;
 }
 
-.audiocall-header,
+.game-header,
 .choice-header {
     text-transform: uppercase;
     font-size: 40px;

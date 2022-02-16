@@ -1,16 +1,18 @@
 import Component from "../../common/Component";
 import Page from "../../common/Page";
 import { LocalStorageKey } from "../../settings";
+import { SprintPage } from "../SprintPage/SprintPage";
+import { AudioCallPage } from "../AudioCallPage/AudioCallPage";
 import { WordData } from "./TextBookModel";
 import TextBookPresenter from "./TextBookPresenter";
 import WordElem from "./WordElem";
 import WordElemAuthorized from "./WordElemAuthorized";
 import WordElemHard from "./WordElemHard";
 
-const textbookSettings = {
+export const textbookSettings = {
   chapters: [...Array(6)].map((el, ind) => ind + 1),
   pages: [...Array(30)].map((el, ind) => ind + 1),
-  groupColors: ['#fff', '#62a3a7', '#407da4', '#0266e7', '#00367a', '#4332a9', '#2a2077', '#d86060'],
+  groupColors: ['#fff', '#62a3a7', '#407da4', '#0d60a9', '#1444cd', '#4332a9', '#2a2077', '#d86060'],
   hardWordsGroupNum: 7,
   games: ['Аудиовызов', 'Спринт'],
 }
@@ -19,12 +21,14 @@ export class TextBookPage extends Page {
   private presenter = new TextBookPresenter(this);
   protected container = new Component('div', 'textbook').node;
   private header = new Component('div', 'textbook__header', 'Учебник').node;
-  private groupNum = 1;
+  public groupNum = 0;
   private groupSelect = new Component('button', 'location-select__button location-select__button_group', '').node;
-  private pageNum = 1;
+  public pageNum = 0;
   private pageSelect = new Component('button', 'location-select__button location-select__button_page', '').node;
-  private gameSelect = new Component('button', 'location-select__button location-select__button_game', 'Мини-игра').node;
+  public gameSelect = new Component<HTMLInputElement>('button', 'location-select__button location-select__button_game', 'Мини-игра').node;
   private wordsContainer = new Component('div', 'textbook__words').node;
+  public fullPageSign = new Component('p', 'textbook__full-page', 'Страница изучена!').node;
+  pagesArr: HTMLElement[] = [];
 
   constructor() {
     super();
@@ -32,6 +36,7 @@ export class TextBookPage extends Page {
     const nav = new Component('div', 'textbook__nav').node;
     this.creatChapterSelect(nav);
     this.createPageSelect(nav);
+    nav.append(this.fullPageSign);
     this.createGameSelect(nav);
     this.container.append(nav, this.wordsContainer);
   }
@@ -40,38 +45,43 @@ export class TextBookPage extends Page {
     document.body.className = 'body';
     this.wordsContainer.innerHTML = '';
     const { group, page } = this.getLocation();
+    const prevGroupNum = this.groupNum;
     this.pageNum = page;
     this.groupNum = group;
     this.container.style.setProperty('--group-color', `${textbookSettings.groupColors[group]}`);
-    if(this.groupNum === textbookSettings.hardWordsGroupNum) {
+    this.fullPageSign.classList.remove('active');
+    if (this.groupNum === textbookSettings.hardWordsGroupNum) {
       this.presenter.onHardWordsPageSelect();
       this.groupSelect.innerText = `Сложные слова`;
       this.pageSelect.style.visibility = 'hidden';
     } else {
+      this.presenter.onPageSelect(group - 1, page - 1);
+      if (prevGroupNum !== group) {
+        this.presenter.checkPagesList();
+      }
       this.groupSelect.innerText = `Уровень ${group}`;
       this.pageSelect.style.visibility = '';
       this.pageSelect.innerText = `Страница ${page}`;
-      this.presenter.onPageSelect(group - 1, page - 1);
     }
     return this.container;
   }
 
   public async displayWords(data: WordData[]) {
-    if (localStorage.getItem(LocalStorageKey.token)) {
-      const [hardWords, learnedWords] = await Promise.all([this.presenter.getHardWords(), this.presenter.getLearnedWords()]);
-      data.forEach((el) => {
-          const word = new WordElemAuthorized(el, this.presenter, hardWords, learnedWords).node;
-          this.wordsContainer.append(word);
-      })
-    } else {
       data.forEach((el) => {
         const word = new WordElem(el, this.presenter).node;
         this.wordsContainer.append(word);
       })
-    }
   }
 
-  displayHardWords(data: WordData[]) {
+  public displayAuthUserWords(data: WordData[]) {
+    data.forEach((el) => {
+      const word = new WordElemAuthorized(el, this.presenter).node;
+      this.wordsContainer.append(word);
+    })
+    this.presenter.checkCurrentPage();
+  }
+
+  public displayHardWords(data: WordData[]) {
     data.forEach((el) => {
       const word = new WordElemHard(el, this.presenter).node;
       this.wordsContainer.append(word);
@@ -95,6 +105,7 @@ export class TextBookPage extends Page {
         if (el === this.groupNum) return;
         history.pushState('', '', `#/textbook/${el}/1`);
         this.render();
+        this.presenter.checkPagesList();
       }
       list.append(listItem);
     })
@@ -131,8 +142,9 @@ export class TextBookPage extends Page {
     const list = new Component('ul', 'location-select__list location-select__list_page').node;
 
     textbookSettings.pages.forEach((el) => {
-      const listItem = new Component('li', 'location-select__item', `Страница ${el}`).node;
+      const listItem = new Component('li', 'location-select__item location-select__item_page', `${el}`).node;
       list.append(listItem);
+      this.pagesArr.push(listItem);
       listItem.onclick = () => {
         if (el === this.pageNum) return;
         history.pushState('', '', `#/textbook/${this.groupNum}/${el}`);
@@ -159,8 +171,28 @@ export class TextBookPage extends Page {
     const list = new Component('ul', 'location-select__list').node;
 
     const audioсallBtn = new Component('li', 'location-select__item', `Аудиовызов`).node;
-    const sptintBtn = new Component('li', 'location-select__item', `Спринт`).node;
-    list.append(audioсallBtn, sptintBtn);
+    const sprintBtn = new Component('li', 'location-select__item', `Спринт`).node;
+    list.append(audioсallBtn, sprintBtn);
+
+    sprintBtn.onclick = () => {
+      const root = document.querySelector('#root') as HTMLElement;
+      const location = this.getLocation();
+      const sprintGame = new SprintPage((location.group - 1).toString(), (location.page - 1).toString());
+      root.innerHTML = '';
+      history.pushState('', '', '#/sprint');
+      const pageElement = sprintGame.render();
+      root.append(pageElement);
+    }
+
+    audioсallBtn.onclick = () => {
+      const root = document.querySelector('#root') as HTMLElement;
+      const location = this.getLocation();
+      const audioCallGame = new AudioCallPage((location.group - 1).toString(), (location.page - 1).toString());
+      root.innerHTML = '';
+      history.pushState('', '', '#/audiocall');
+      const pageElement = audioCallGame.render();
+      root.append(pageElement);
+     }
 
     this.gameSelect.onclick = (e) => {
       list.classList.add('active');

@@ -1,5 +1,6 @@
 @import './sass/base/reset';
 @import './sass/utils/variables';
+@import './sass/utils/popup';
 
 //body
 @import './sass/layout/body';
@@ -10,5 +11,6 @@
 //pages
 @import './sass/pages/auth';
 @import './sass/pages/audiocall';
+@import './sass/pages/sprint';
 @import './sass/pages/textBook';
 @import './sass/pages/teamPage';

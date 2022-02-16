@@ -1,7 +1,8 @@
 import Component from "../../common/Component";
-import AudioCallView from "./AudioCallView";
+import SprintView from "./SprintView";
 
-export default class LevelChoice {
+
+export default class SprintLevel {
 
     public currentLevel: string | undefined;
     public node: HTMLElement;
@@ -21,8 +22,8 @@ export default class LevelChoice {
             btn.addEventListener('click', async () => {
                 this.currentLevel = btn.innerText;
                 choiceComponent.destroy();
-                let audioCallView = new AudioCallView();
-                await audioCallView.startQuiz(this.currentLevel, 'any');
+                let sprintView = new SprintView();
+                await sprintView.startQuiz(this.currentLevel, 'any');
             })
         });
         this.node = choiceContainer;

@@ -3,7 +3,7 @@ import Page from '../../common/Page';
 
 class TeamPage extends Page {
     render() {
-      document.body.className = 'body';
+      document.body.className = 'body body_level5';
       const page = new Component('div', 'team-page', '').node;
 
       const title = new Component('h1', 'team-page-title', 'О команде ').node;  
@@ -12,6 +12,9 @@ class TeamPage extends Page {
       
       const pageContainerElement = pageContainer.node;
       page.append(title);
+
+      const teamCards = new Component('div', 'team-cards', '').node;
+      pageContainerElement.append(teamCards);
 
       const block1 = new Component('div', 'team-page-block', '').node;
       const image1 = new Component('img', 'image-page', '',{src: '../../images/ava1.png'}).node;
