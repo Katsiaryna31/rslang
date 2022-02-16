@@ -12,9 +12,14 @@ export default class TextBookPresenter {
   }
 
   async onPageSelect(chapter: number, page: number) {
-    const data = await this.model.getWords(chapter, page);
     this.view.gameSelect.disabled = false; 
-    this.view.displayWords(data);
+    if (!localStorage.getItem(LocalStorageKey.id)) {
+      const data = await this.model.getWords(chapter, page);
+      this.view.displayWords(data);
+    } else {
+      const data = await this.model.getUserWords(chapter, page);
+      this.view.displayAuthUserWords(data);
+    }
   }
 
   async onHardWordsPageSelect() {
@@ -26,23 +31,28 @@ export default class TextBookPresenter {
   async wordDifficultyUpdate(btn: HTMLInputElement, wordId: string, newDifficultyValue: string) {
     btn.disabled = true;
     const wordData = await this.model.getUserWord(wordId);
-    const word = { difficulty: newDifficultyValue };
     if (!wordData) {
+      const word = { 
+        difficulty: newDifficultyValue,
+        optional: {
+          wins: 0,
+          fails: 0,
+          playedInGame: false,
+          straightWins: 0,
+          lastAnswer: 'fail',
+        }
+      };
       await this.model.createUserWord(wordId, word);
     } else {
+      const word = { 
+        difficulty: newDifficultyValue,
+        optional: {
+          ...wordData.optional
+        }
+       };
       await this.model.updateUserWord(wordId, word);
     }
     btn.disabled = false;
-  }
-
-  async getHardWords() {
-    const data = await this.model.getHardWords();
-    return data;
-  }
-
-  async getLearnedWords() {
-    const data = await this.model.getLearnedWords();
-    return data;
   }
 
   async checkCurrentPage() {

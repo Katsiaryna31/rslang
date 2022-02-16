@@ -27,19 +27,18 @@ export default class WordElemAuthorized extends WordElem{
   constructor(
     data: WordData,
     protected presenter: TextBookPresenter,
-    private hardWords: WordData[],
-    private learnedWords: WordData[],
   ) {
     super(data, presenter);
+    this.text.classList.add('text_auth');
     const hardWordBtn = new Component<HTMLInputElement>('button', 'word__btn word__btn_hard').node;
     hardWordBtn.innerHTML = createBookMarkImg();
 
     const learnedWordBtn = new Component<HTMLInputElement>('button', 'word__btn word__btn_learned').node;
     learnedWordBtn.innerHTML = createCheckImg();
 
-    if (hardWords.some((word) => word._id === data.id)) {
+    if (data.userWord?.difficulty === 'hard') {
       hardWordBtn.classList.add('active');
-    } else if (learnedWords.some((word) => word._id === data.id)) {
+    } else if (data.userWord?.difficulty === 'learned') {
       learnedWordBtn.classList.add('active');
       this.node.classList.add('dark');
     }
@@ -48,10 +47,10 @@ export default class WordElemAuthorized extends WordElem{
       if (!hardWordBtn.classList.contains('active')) {
         hardWordBtn.classList.add('active');
         learnedWordBtn.classList.remove('active');
-        await this.presenter.wordDifficultyUpdate(hardWordBtn, data.id, 'hard');
+        await this.presenter.wordDifficultyUpdate(hardWordBtn, data._id, 'hard');
       } else {
         hardWordBtn.classList.remove('active');
-        await this.presenter.wordDifficultyUpdate(hardWordBtn, data.id, 'normal');
+        await this.presenter.wordDifficultyUpdate(hardWordBtn, data._id, 'normal');
       }
       this.presenter.checkCurrentPage();
     }
@@ -61,15 +60,21 @@ export default class WordElemAuthorized extends WordElem{
         hardWordBtn.classList.remove('active');
         learnedWordBtn.classList.add('active');
         this.node.classList.add('dark');
-        await this.presenter.wordDifficultyUpdate(learnedWordBtn, data.id, 'learned');
+        await this.presenter.wordDifficultyUpdate(learnedWordBtn, data._id, 'learned');
       } else {
         learnedWordBtn.classList.remove('active');
         this.node.classList.remove('dark');
-        await this.presenter.wordDifficultyUpdate(learnedWordBtn, data.id, 'normal');
+        await this.presenter.wordDifficultyUpdate(learnedWordBtn, data._id, 'normal');
       }
       this.presenter.checkCurrentPage();
     }
 
     this.node.append(hardWordBtn, learnedWordBtn);
+
+    if (data.userWord?.optional?.playedInGame) {
+      const winsCount = new Component('p', 'word__stat word__stat_wins', `Правильные ответы: ${data.userWord.optional.wins}`).node;
+      const failsCount = new Component('p', 'word__stat word__stat_fails', `Ошибки: ${data.userWord.optional.fails}`).node;
+      this.node.append(winsCount, failsCount);
+    }
   }
 }

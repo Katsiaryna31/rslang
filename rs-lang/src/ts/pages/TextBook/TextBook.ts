@@ -66,22 +66,21 @@ export class TextBookPage extends Page {
   }
 
   public async displayWords(data: WordData[]) {
-    if (localStorage.getItem(LocalStorageKey.token)) {
-      const [hardWords, learnedWords] = await Promise.all([this.presenter.getHardWords(), this.presenter.getLearnedWords()]);
-      data.forEach((el) => {
-          const word = new WordElemAuthorized(el, this.presenter, hardWords, learnedWords).node;
-          this.wordsContainer.append(word);
-      })
-      this.presenter.checkCurrentPage();
-    } else {
       data.forEach((el) => {
         const word = new WordElem(el, this.presenter).node;
         this.wordsContainer.append(word);
       })
-    }
   }
 
-  displayHardWords(data: WordData[]) {
+  public displayAuthUserWords(data: WordData[]) {
+    data.forEach((el) => {
+      const word = new WordElemAuthorized(el, this.presenter).node;
+      this.wordsContainer.append(word);
+    })
+    this.presenter.checkCurrentPage();
+  }
+
+  public displayHardWords(data: WordData[]) {
     data.forEach((el) => {
       const word = new WordElemHard(el, this.presenter).node;
       this.wordsContainer.append(word);
