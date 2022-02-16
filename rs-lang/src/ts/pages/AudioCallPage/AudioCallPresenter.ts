@@ -1,3 +1,4 @@
+import { Words } from "../../common/wordInterfaces";
 import AudioCallModel from "./AudioCallModel";
 import AudioCallView from "./AudioCallView";
 
@@ -22,8 +23,10 @@ export interface Word {
 //   "wins": string,
 //   "fails":string
 // }
-
-export interface Words extends Array<Word>{};
+export interface Optional {
+  "wins": string,
+  "fails":string
+}
 
 export default class AudioCallPresenter {
     private questionsPerLevel: number = 10;

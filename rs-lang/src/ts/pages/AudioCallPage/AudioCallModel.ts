@@ -1,6 +1,9 @@
+
+import { Words } from "../../common/wordInterfaces";
 import { BASE_LINK, LocalStorageKey } from "../../settings";
 import TextBookModel, { UserWord } from "../TextBook/TextBookModel";
 import { Words } from "./AudioCallPresenter";
+
 
 const userId = localStorage.getItem(LocalStorageKey.id) || '';
 const token = localStorage.getItem(LocalStorageKey.token) || '';
