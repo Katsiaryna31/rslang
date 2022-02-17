@@ -13,7 +13,6 @@ export default class AudioCallModel {
   level: string = '';
 
   async getWords(level: string, page:string) {
-    console.log('level' + level, 'page' + page);
     this.level = level;
     if (page === 'any') {
         let response = await fetch(`${BASE_LINK}/words?group=${this.level}`, {
@@ -68,7 +67,7 @@ export default class AudioCallModel {
           method: 'GET',
       });
       this.data = this.data.concat(await response.json());
-  }
+    }
   }
 
 }

@@ -20,6 +20,7 @@ export default class AudioCallView {
   }
 
   async displayQuestion(question: Word) {
+    console.log(question);
     const pageWrapper = <HTMLDivElement>document.querySelector('.audiocall-wrapper');
     const closePageButton = new Component('button', 'close-audiocall', '×').node;
     closePageButton.addEventListener('click', () => {
@@ -41,26 +42,28 @@ export default class AudioCallView {
   }
 
   async displayAnswers(answers: Words, rightAnswer: Word) {
+    let rightAnswerId = (rightAnswer.id !== undefined) ? rightAnswer.id : rightAnswer._id;
     const questionContainer = new Component('div', 'question-container').node;
     const answersContainer = new Component('div', 'answers-container').node;
     shuffle(answers).forEach((answer, index) => {
       const answerEl =   new Component('button', 'answer-container', `${index + 1}. ${answer.wordTranslate}`).node;
-      if (answer.id === rightAnswer.id) {
+      let answerId = (answer.id !== undefined) ? answer.id : answer._id;
+      if (answerId === rightAnswerId) {
         answerEl.classList.add('right-answer');
       }
       answersContainer.append(answerEl);
       answerEl.addEventListener('click', () => {
-        if (answer.id === rightAnswer.id) {
+        if (answerId === rightAnswerId) {
           this.rightAnswers.push(answer);
           this.onSelectAnswer('right');
           this.showAnswer(rightAnswer);
-          this.presenter.updateWordWins(answer.id);
+          this.presenter.updateWordWins(answerId);
         } else {
           this.wrongAnswers.push(answer);
           answerEl.style.textDecoration = 'line-through';
           this.onSelectAnswer('wrong');
           this.showAnswer(rightAnswer);
-          this.presenter.updateWordFails(answer.id);
+          this.presenter.updateWordFails(answerId);
         }
       })
     });
@@ -68,7 +71,7 @@ export default class AudioCallView {
     dontKnowButton.addEventListener('click' , () => {
       this.onSelectAnswer('wrong');
       this.showAnswer(rightAnswer);
-      this.presenter.updateWordFails(rightAnswer.id);
+      this.presenter.updateWordFails(rightAnswerId);
     });
     this.gameContainer.append(questionContainer);
     this.gameContainer.append(answersContainer);
@@ -91,6 +94,7 @@ export default class AudioCallView {
     const dontKnowButton = <HTMLButtonElement>document.querySelector('.result-button');
     dontKnowButton.remove();
     const rightAnswer = <HTMLButtonElement>document.querySelector('.right-answer');
+    console.log(rightAnswer);
     rightAnswer.classList.add('answer-container-right');
     const resultButton = new Component('button', 'result-button next', `→`).node;
     this.gameContainer.append(resultButton);
