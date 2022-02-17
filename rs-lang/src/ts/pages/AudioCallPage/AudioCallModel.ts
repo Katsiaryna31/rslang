@@ -25,12 +25,6 @@ export default class AudioCallModel {
             method: 'GET',
           });
         this.data = await response.json();
-        if (this.data.length < 10) {
-            let response = await fetch(`${BASE_LINK}/words?group=6&page=30`, {
-                method: 'GET',
-            });
-            this.data = this.data.concat(await response.json());
-        }
     }
     return this;
   }
@@ -57,44 +51,24 @@ export default class AudioCallModel {
 
   async createUserWord(wordId: string, word: UserWord) {
     TextBookModel.createUserWord(wordId, word);
-    // const response = await fetch(`${BASE_LINK}/users/${userId}/words/${wordId}`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Authorization': `Bearer ${token}`,
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(word)
-    // });
   };
       
   async getUserWord(wordId: string) {
     return await TextBookModel.getUserWord(wordId);
-    // const response = await fetch(`${BASE_LINK}/users/${userId}/words/${wordId}`, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Authorization': `Bearer ${token}`,
-    //     'Accept': 'application/json',
-    //   }
-    // });
-    // if (response.ok) {
-    //   const content: UserWord = await response.json();
-    //   return content;
-    // }
-    // return null;
   };
 
   async updateUserWord(wordId: string, word: UserWord) {
     TextBookModel.updateUserWord(wordId, word);
-    // const response = await fetch(`${BASE_LINK}/users/${userId}/words/${wordId}`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Authorization': `Bearer ${token}`,
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(word)
-    // });
   };
+
+  async getHardWords() {
+    this.data = await TextBookModel.getHardWords();
+    if (this.data.length < 10) {
+      let response = await fetch(`${BASE_LINK}/words?group=5&page=29`, {
+          method: 'GET',
+      });
+      this.data = this.data.concat(await response.json());
+  }
+  }
 
 }

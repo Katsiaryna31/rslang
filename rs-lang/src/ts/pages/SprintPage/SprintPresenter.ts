@@ -51,10 +51,72 @@ export default class SprintPresenter {
   async createQuiz(level: string, page: string) {
     this.level = level;
     this.page = page;
-    await this.model.makeQuestionsArray(this.level, this.page);
+    if (this.level === '6') {
+      await this.model.getHardWords();
+    } else {
+      await this.model.makeQuestionsArray(this.level, this.page);
+    }
     audioStart()
     this.view.renderSprint(this.model.arrayEng, this.model.arrayRus);
     this.timer();
+  }
+
+  async updateWordWins(wordOrder: number) {
+    const wordData = await this.model.getUserWord(wordOrder);
+    if (!wordData) {
+      const updatedData = {
+        difficulty: 'normal',
+        optional: {
+          wins: 1,
+          fails: 0,
+          playedInGame: true,
+          straightWins: 1,
+          lastAnswer: 'win',
+        }
+      }
+      this.model.createUserWord(wordOrder, updatedData);
+    } else {
+      const updatedData = {
+        difficulty: wordData.optional.straightWins === 1 ? 'learned' : wordData.difficulty,
+        optional: {
+          wins: wordData.optional.wins + 1,
+          fails: wordData.optional.fails,
+          playedInGame: true,
+          straightWins: wordData.optional.straightWins + 1,
+          lastAnswer: 'win',
+        }
+      }
+      this.model.updateUserWord(wordOrder, updatedData);
+    }
+  }
+
+  async updateWordFails(wordOrder: number) {
+    const wordData = await this.model.getUserWord(wordOrder);
+    if (!wordData) {
+      const updatedData = {
+        difficulty: 'normal',
+        optional: {
+          wins: 0,
+          fails: 1,
+          playedInGame: true,
+          straightWins: 0,
+          lastAnswer: 'fail',
+        }
+      }
+      this.model.createUserWord(wordOrder, updatedData);
+    } else {
+      const updatedData = {
+        difficulty: wordData.difficulty = 'learned' ? 'normal' : wordData.difficulty,
+        optional: {
+          wins: wordData.optional.wins,
+          fails: wordData.optional.fails + 1,
+          playedInGame: true,
+          straightWins: 0,
+          lastAnswer: 'fail',
+        }
+      }
+      this.model.updateUserWord(wordOrder, updatedData);
+    }
   }
   
 }
