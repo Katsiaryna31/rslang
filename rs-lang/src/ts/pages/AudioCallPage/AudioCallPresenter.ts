@@ -40,7 +40,11 @@ export default class AudioCallPresenter {
     }
 
     async createQuiz(level: string, page:string) {
-      await this.model.getWords(level, page);
+      if (level === '6') {
+        await this.model.getHardWords();
+      } else {
+        await this.model.getWords(level, page);
+      }
       await this.renderAnswers()
     }
 
@@ -57,15 +61,6 @@ export default class AudioCallPresenter {
       const rightAnswer = this.model.rightAnswers[this.model.rightAnswers.length -1];
       await this.view.displayAnswers(answers, rightAnswer);
     }
-
-    // async wordStatisticUpdate(wordId: string, optional:Optional) {
-    //   const wordData = await this.model.getUserWord(wordId);
-    //   if (!wordData) {
-    //     await this.model.createUserWord(wordId, optional);
-    //   } else {
-    //     await this.model.updateUserWord(wordId, optional);
-    //   }
-    // }
 
     async updateWordWins(wordId: string) {
       const wordData = await this.model.getUserWord(wordId);

@@ -19,7 +19,7 @@ export default class LevelChoice {
             const btn = new Component('button', 'choice-button', level).node;
             choiceButtons.append(btn);
             btn.addEventListener('click', async () => {
-                this.currentLevel = btn.innerText;
+                this.currentLevel = String(Number(btn.innerText) - 1);
                 choiceComponent.destroy();
                 let audioCallView = new AudioCallView();
                 await audioCallView.startQuiz(this.currentLevel, 'any');
