@@ -80,6 +80,9 @@ renderMainWords = (numberWordsEng: number, numberWordsRus:number) => {
   src="./images/sound.svg" alt="sound" />
      <h5 class="card-title">${this.arrayEng[numberWordsEng]}</h5>
      <p class="card-text">${this.arrayRus[numberWordsRus]}</p>`;
+     setTimeout(() => {
+      this.presenter.playSound(this.numberWordsEng);
+    }, 1000);
  }
 
 nextQuestionTrue = () =>  {
@@ -114,7 +117,6 @@ nextQuestionTrue = () =>  {
   }
 
    this.renderMainWords(this.numberWordsEng, this.numberWordsRus);
-   this.presenter.playSound(this.numberWordsEng);
 }
 
 nextQuestionFalse = () => {
@@ -148,7 +150,6 @@ nextQuestionFalse = () => {
   } 
 
   this.renderMainWords(this.numberWordsEng, this.numberWordsRus);
-  this.presenter.playSound(this.numberWordsEng);
 }
 
 sumResult = () => {

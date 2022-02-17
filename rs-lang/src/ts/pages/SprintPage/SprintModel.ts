@@ -42,31 +42,32 @@ export default class SprintModel {
     }
 
   playAudio(numberWordsEng: number){
-    const audio = new Audio(`https://rsschool-learnwords.herokuapp.com/${this.arrayPron[numberWordsEng - 1]}`);
+    const audio = new Audio(`https://rsschool-learnwords.herokuapp.com/${this.arrayPron[numberWordsEng]}`);
     audio.play();
   }
 
   async getHardWords() {
     let data = await TextBookModel.getHardWords();
-    if (data.length < 10) {
+    if (data.length < 30) {
       let response = await fetch(`${BASE_LINK}/words?group=5&page=29`, {
           method: 'GET',
       });
      data = data.concat(await response.json());
     }
     data.map((a) => this.arrayEng.push(a.word))
-    /* console.log(arrayEng) */
     data.map((a) => this.arrayRus.push(a.wordTranslate))
-    /* console.log(arrayRus) */
     data.map((a) => this.arrayPron.push(a.audio))
     data.map((a) => this.arrayTranscr.push(a.transcription))
-    data.map((a) => this.arrayId.push(a.id))
+    data.map((a) => {
+      if (a.id !== undefined) {
+        this.arrayId.push(a.id)
+      } else {
+        this.arrayId.push(a._id)
+      }
+    });
   }
 
   async createUserWord(wordOrder:number, word: UserWord) {
-    console.log(this.arrayId);
-    console.log(wordOrder);
-    console.log(this.arrayId[wordOrder]);
     TextBookModel.createUserWord(this.arrayId[wordOrder], word);
   };
       
