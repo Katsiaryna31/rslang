@@ -22,10 +22,10 @@
 }
 
 .sprint-container {
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-    padding-top: 5vh;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding-top: 5vh;
 }
 
 .card {
@@ -64,13 +64,15 @@ svg {
   width: 30px;
 }
 .png-image-block {
+  display: flex;
+  justify-content: center;
   width: 50%;
   margin: 0 auto;
   height: 250px;
-  display: flex;
 }
 .png-image {
-  width: 80px;
+  width: 100px;
+  height: 200px;
 }
 .sprint-top {
   width: 70%;
@@ -95,10 +97,14 @@ svg {
 
 .block-timer,
 .block-result {
-  height: 55px;
-  width: 55px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 65px;
+  height: 65px;
   border: 2px solid red;
   border-radius: 100px;
+  align-items: center;
 }
 .block-result {
   border: 2px solid rgb(60, 153, 60);
@@ -196,7 +202,7 @@ svg {
 .result-item-text {
   display: flex;
   justify-content: flex-start;
-} 
+}
 
 .sprint-results-button {
   background: transparent;
@@ -215,6 +221,7 @@ svg {
   text-transform: uppercase;
   border: 1px solid #fff;
   padding: 5px 10px;
+  width: 150px;
 }
 
 .btn-answer:hover {

@@ -314,7 +314,7 @@ renderResultsPage = (arrayTranscription:string[]) =>{
       <h5 class="engWord">${this.arrayEng[i-1]}</h5>
       <p class="transr">${arrayTranscription[i-1]}</p>
       <h5 class="rusWords">${this.arrayRus[i-1]}</h5>
-      <img src="./sprint/images/${this.arrBooleanAnswer[i-1]}.png" alt="boolean" class="boolenImage">
+      <img src="./images/${this.arrBooleanAnswer[i-1]}.png" alt="boolean" class="boolenImage">
     `
     const resultItemText = new Component('div', 'result-item-text').node;
     resultItemText.innerHTML = resultText;
