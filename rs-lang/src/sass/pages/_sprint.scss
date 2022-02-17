@@ -59,10 +59,10 @@
   flex-direction: column;
   justify-content: center;
 }
-svg {
+/* svg {
   height: 30px;
   width: 30px;
-}
+} */
 .png-image-block {
   display: flex;
   justify-content: center;
@@ -75,7 +75,7 @@ svg {
   height: 200px;
 }
 .sprint-top {
-  width: 70%;
+  width: 50%;
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
@@ -102,12 +102,14 @@ svg {
   justify-content: center;
   width: 65px;
   height: 65px;
-  border: 2px solid red;
+  border: 2px solid white;
+  background-color: red;
   border-radius: 100px;
   align-items: center;
 }
 .block-result {
-  border: 2px solid rgb(60, 153, 60);
+  border: 2px solid white;
+  background-color: rgb(60, 153, 60);
 }
 .opacity {
   opacity: 0;
@@ -168,21 +170,25 @@ svg {
   margin-bottom: 80px;
   margin-top: 20px;
 }
+.block-point {
+  margin-bottom: 10px;
+}
 .block-point-svg {
   display: flex;
 }
 #block-point-inner {
   text-align: center;
-  border: 1px solid black;
+  border: 2px solid white;
   border-radius: 50px;
-  /*   height: 15px;
- */
+  width: 100px;
+  height: 30px;
+  font-size: 20px;
 }
 .red {
   background-color: rgb(245, 38, 38);
 }
 .orange {
-  background-color: rgb(247, 224, 20);
+  background-color: rgb(214, 193, 0);
 }
 .chartreuse {
   background-color: chartreuse;
@@ -191,6 +197,22 @@ svg {
   display: flex;
   justify-content: center;
   margin: 8px;
+  overflow-y: auto;
+  height: 600px;
+  scrollbar-color: #d11515;
+}
+
+.sprint-results::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+
+.sprint-results::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+.sprint-results::-webkit-scrollbar-thumb {
+  background-color: #910909;
 }
 
 .sprint-results-item {
