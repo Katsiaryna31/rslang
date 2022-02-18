@@ -57,13 +57,13 @@ export default class AudioCallView {
           this.rightAnswers.push(answer);
           this.onSelectAnswer('right');
           this.showAnswer(rightAnswer);
-          this.presenter.updateWordWins(answerId);
+          this.presenter.onWordWin(rightAnswer.id || rightAnswer._id);
         } else {
           this.wrongAnswers.push(answer);
           answerEl.style.textDecoration = 'line-through';
           this.onSelectAnswer('wrong');
           this.showAnswer(rightAnswer);
-          this.presenter.updateWordFails(answerId);
+          this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
         }
       })
     });
@@ -71,7 +71,7 @@ export default class AudioCallView {
     dontKnowButton.addEventListener('click' , () => {
       this.onSelectAnswer('wrong');
       this.showAnswer(rightAnswer);
-      this.presenter.updateWordFails(rightAnswerId);
+      this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
     });
     this.gameContainer.append(questionContainer);
     this.gameContainer.append(answersContainer);

@@ -40,6 +40,7 @@ const authorization = async () => {
       userNameElem.innerHTML = userName;
       signOutElem.style.display = 'block';
       signInElem.style.display = 'none';
+      (document.querySelector('#statistics-link') as HTMLElement).style.display = 'block';
 
       signOutElem.onclick = () => {
         clearLocalStorage();

@@ -87,12 +87,12 @@ renderMainWords = (numberWordsEng: number, numberWordsRus:number) => {
 
 nextQuestionTrue = () =>  {
   if(this.numberWordsEng === this.numberWordsRus){
-      this.presenter.updateWordWins(this.numberWordsEng);
+      this.presenter.onWordWin(this.numberWordsEng);
       this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng]);
       this.arrBooleanAnswer.push('true');
       audioTrue();
   } else {
-      this.presenter.updateWordFails(this.numberWordsEng);
+      this.presenter.onWordFail(this.numberWordsEng);
       this.arrTrueAnswer = [];
       this.arrBooleanAnswer.push('false');
       audioFalse()
@@ -120,16 +120,16 @@ nextQuestionTrue = () =>  {
 }
 
 nextQuestionFalse = () => {
-  if(this.numberWordsEng !== this.numberWordsRus){
-      this.presenter.updateWordWins(this.numberWordsEng);
-      this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng])
-      this.arrBooleanAnswer.push('true');
+  if (this.numberWordsEng !== this.numberWordsRus) {
+    this.presenter.onWordWin(this.numberWordsEng);
+    this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng])
+    this.arrBooleanAnswer.push('true');
       audioTrue();
   } else {
-      this.presenter.updateWordFails(this.numberWordsEng);
-      this.arrTrueAnswer = [];
-      this.arrBooleanAnswer.push('false');
-      audioFalse()
+    this.presenter.onWordFail(this.numberWordsEng);
+    this.arrTrueAnswer = [];
+    this.arrBooleanAnswer.push('false');
+    audioFalse()
   }
   this.sumResult();
   this.renderCircleBlock();

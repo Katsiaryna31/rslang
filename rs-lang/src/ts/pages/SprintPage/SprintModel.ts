@@ -1,7 +1,7 @@
 import { getRandomPage } from "../../common/utils";
 import { Words } from "../../common/wordInterfaces";
 import { BASE_LINK } from "../../settings";
-import TextBookModel, { UserWord } from "../TextBook/TextBookModel";
+import TextBookModel from "../TextBook/TextBookModel";
 
 
 export default class SprintModel {
@@ -66,16 +66,4 @@ export default class SprintModel {
       }
     });
   }
-
-  async createUserWord(wordOrder:number, word: UserWord) {
-    TextBookModel.createUserWord(this.arrayId[wordOrder], word);
-  };
-      
-  async getUserWord(wordOrder:number) {
-    return await TextBookModel.getUserWord(this.arrayId[wordOrder]);
-  };
-
-  async updateUserWord(wordOrder:number, word: UserWord) {
-    TextBookModel.updateUserWord(this.arrayId[wordOrder], word);
-  };
 }

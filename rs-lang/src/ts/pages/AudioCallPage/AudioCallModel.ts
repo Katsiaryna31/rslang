@@ -1,6 +1,6 @@
 import { Words } from "../../common/wordInterfaces";
 import { BASE_LINK, LocalStorageKey } from "../../settings";
-import TextBookModel, { UserWord } from "../TextBook/TextBookModel";
+import TextBookModel from "../TextBook/TextBookModel";
 
 const userId = localStorage.getItem(LocalStorageKey.id) || '';
 const token = localStorage.getItem(LocalStorageKey.token) || '';
@@ -47,18 +47,6 @@ export default class AudioCallModel {
     }
     return answers;
   }
-
-  async createUserWord(wordId: string, word: UserWord) {
-    TextBookModel.createUserWord(wordId, word);
-  };
-      
-  async getUserWord(wordId: string) {
-    return await TextBookModel.getUserWord(wordId);
-  };
-
-  async updateUserWord(wordId: string, word: UserWord) {
-    TextBookModel.updateUserWord(wordId, word);
-  };
 
   async getHardWords() {
     this.data = await TextBookModel.getHardWords();
