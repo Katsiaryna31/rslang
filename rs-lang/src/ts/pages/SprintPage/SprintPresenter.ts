@@ -1,5 +1,6 @@
 import { audioStart } from "../../common/utils";
 import { Words } from "../../common/wordInterfaces";
+import { updateWordFails, updateWordWins } from "../StatisticsPage/wordStats";
 import SprintModel from "./SprintModel";
 import SprintView from "./SprintView";
 
@@ -60,62 +61,11 @@ export default class SprintPresenter {
     this.timer();
   }
 
-  async updateWordWins(wordOrder: number) {
-    const wordData = await this.model.getUserWord(wordOrder);
-    if (!wordData) {
-      const updatedData = {
-        difficulty: 'normal',
-        optional: {
-          wins: 1,
-          fails: 0,
-          playedInGame: true,
-          straightWins: 1,
-          lastAnswer: 'win',
-        }
-      }
-      this.model.createUserWord(wordOrder, updatedData);
-    } else {
-      const updatedData = {
-        difficulty: wordData.optional.straightWins === 1 ? 'learned' : wordData.difficulty,
-        optional: {
-          wins: wordData.optional.wins + 1,
-          fails: wordData.optional.fails,
-          playedInGame: true,
-          straightWins: wordData.optional.straightWins + 1,
-          lastAnswer: 'win',
-        }
-      }
-      this.model.updateUserWord(wordOrder, updatedData);
-    }
+  onWordWin(wordOrder: number) {
+    updateWordWins(this.model.arrayId[wordOrder], 'sprint');
   }
 
-  async updateWordFails(wordOrder: number) {
-    const wordData = await this.model.getUserWord(wordOrder);
-    if (!wordData) {
-      const updatedData = {
-        difficulty: 'normal',
-        optional: {
-          wins: 0,
-          fails: 1,
-          playedInGame: true,
-          straightWins: 0,
-          lastAnswer: 'fail',
-        }
-      }
-      this.model.createUserWord(wordOrder, updatedData);
-    } else {
-      const updatedData = {
-        difficulty: wordData.difficulty = 'learned' ? 'normal' : wordData.difficulty,
-        optional: {
-          wins: wordData.optional.wins,
-          fails: wordData.optional.fails + 1,
-          playedInGame: true,
-          straightWins: 0,
-          lastAnswer: 'fail',
-        }
-      }
-      this.model.updateUserWord(wordOrder, updatedData);
-    }
+  onWordFail(wordOrder: number) {
+    updateWordFails(this.model.arrayId[wordOrder], 'sprint');
   }
-  
 }

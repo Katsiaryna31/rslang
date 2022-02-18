@@ -1,4 +1,5 @@
 import { FILES_LINK, LocalStorageKey } from "../../settings";
+import { today } from "../StatisticsPage/wordStats";
 import { TextBookPage, textbookSettings } from "./TextBook";
 import TextBookModel, { WordData } from "./TextBookModel";
 
@@ -39,7 +40,7 @@ export default class TextBookPresenter {
           fails: 0,
           playedInGame: false,
           straightWins: 0,
-          lastAnswer: 'fail',
+          learnedOn: newDifficultyValue === 'learned' ? today() : 'null',
         }
       };
       await this.model.createUserWord(wordId, word);
@@ -47,7 +48,8 @@ export default class TextBookPresenter {
       const word = { 
         difficulty: newDifficultyValue,
         optional: {
-          ...wordData.optional
+          ...wordData.optional,
+          learnedOn: newDifficultyValue === 'learned' ? today() : 'null',
         }
        };
       await this.model.updateUserWord(wordId, word);
