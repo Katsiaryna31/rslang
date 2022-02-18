@@ -23,11 +23,15 @@ export default class SprintView {
   soundImage = <HTMLImageElement>document.getElementById('sound-image');
 
   constructor () {
-
+    
   }
 
   async startQuiz(level: string, page: string) {
     await this.presenter.createQuiz(level, page);
+    this.renderToyBlock();
+    this.renderCircleBlock();
+
+    
   }
 
   renderSprint = (arrayEng: string[], arrayRus: string[]) => {
@@ -199,8 +203,6 @@ renderCircleBlock = () => {
       }
       if(this.arrTrueAnswer.length >= 3 && this.arrTrueAnswer.length < 6){
         addPoint = "+10";
-  /*        document.body.card.innerPoint.style.backgroundColor = "red";
-   */      /* innerPoint.style.backgroundColor = "red"; */
       }
       if(this.arrTrueAnswer.length >= 6 && this.arrTrueAnswer.length < 9){
         addPoint = "+25";
