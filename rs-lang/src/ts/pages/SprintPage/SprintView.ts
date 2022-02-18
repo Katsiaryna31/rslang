@@ -36,7 +36,7 @@ export default class SprintView {
     const pageWrapper = <HTMLDivElement>document.querySelector('.sprint-wrapper');
     const closePageButton = new Component('button', 'close-sprint', '×').node;
     closePageButton.addEventListener('click', () => {
-      createPopUp('sprint');
+      //createPopUp('sprint');
     })
     pageWrapper.append(closePageButton);
     const html =`
@@ -80,9 +80,6 @@ renderMainWords = (numberWordsEng: number, numberWordsRus:number) => {
   src="./images/sound.svg" alt="sound" />
      <h5 class="card-title">${this.arrayEng[numberWordsEng]}</h5>
      <p class="card-text">${this.arrayRus[numberWordsRus]}</p>`;
-     setTimeout(() => {
-      this.presenter.playSound(this.numberWordsEng);
-    }, 1000);
  }
 
 nextQuestionTrue = () =>  {

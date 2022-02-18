@@ -3,6 +3,7 @@ import Page from '../../common/Page';
 import { BASE_LINK, LocalStorageKey } from '../../settings';
 import { today } from './wordStats';
 import { Res } from '../TextBook/TextBookModel';
+import { updateGameStatistics } from './gameStatistics';
 
 const userId = localStorage.getItem(LocalStorageKey.id) || '';
 const token = localStorage.getItem(LocalStorageKey.token) || '';
@@ -20,6 +21,9 @@ class StatisticsPage extends Page {
     const audiocallNewWords = newWords.filter((w) => w.userWord?.optional.firstGameName === 'audiocall');
     const sprintNewWords = newWords.filter((w) => w.userWord?.optional.firstGameName === 'sprint');
     const learnedWords = await getNewLearnedWords();
+
+    const gameData = await updateGameStatistics();
+    console.log(gameData);
     this.container.innerHTML = `
     <div class="textbook__header">Статистика</div>
         <h2>${new Date().toLocaleString('ru', { year: 'numeric', month: 'long', day: 'numeric' })}</h2>

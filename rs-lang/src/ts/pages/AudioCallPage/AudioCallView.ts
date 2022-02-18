@@ -1,6 +1,7 @@
 import Component from "../../common/Component";
 import { createPopUp, shuffle } from "../../common/utils";
-import { Word, Words } from "../../common/wordInterfaces";
+import { Statistics, Word, Words } from "../../common/wordInterfaces";
+import { today } from "../StatisticsPage/wordStats";
 import AudioCallPresenter from './AudioCallPresenter';
 
 
@@ -8,6 +9,8 @@ export default class AudioCallView {
   private presenter: AudioCallPresenter = new AudioCallPresenter(this);
   rightAnswers: Word[] = [];
   wrongAnswers: Word[] = [];
+  rightAnswerSeries:number = 0;
+  longestSeries: number = 0;
  
   gameContainer = <HTMLDivElement>document.querySelector('.audiocall');
 
@@ -20,11 +23,21 @@ export default class AudioCallView {
   }
 
   async displayQuestion(question: Word) {
-    console.log(question);
     const pageWrapper = <HTMLDivElement>document.querySelector('.audiocall-wrapper');
     const closePageButton = new Component('button', 'close-audiocall', '×').node;
     closePageButton.addEventListener('click', () => {
-      createPopUp('audiocall');
+      const statistics: Statistics = {
+        learnedWords: this.rightAnswers.length,
+        optional: {
+          audiocall: {
+            rightAnswers: this.rightAnswers.length,
+            wrongAnswers: this.wrongAnswers.length,
+            rightSeries: this.longestSeries,
+            firstTimeInGame: today(),
+          }
+        }
+      }
+      createPopUp('audiocall', this.presenter, statistics);
     })
     pageWrapper.append(closePageButton);
     const questionContainer = <HTMLDivElement>document.querySelector('.question-container');
@@ -54,11 +67,18 @@ export default class AudioCallView {
       answersContainer.append(answerEl);
       answerEl.addEventListener('click', () => {
         if (answerId === rightAnswerId) {
+          this.rightAnswerSeries++;
+          console.log( this.rightAnswerSeries);
           this.rightAnswers.push(answer);
           this.onSelectAnswer('right');
           this.showAnswer(rightAnswer);
           this.presenter.onWordWin(rightAnswer.id || rightAnswer._id);
         } else {
+          if (this.rightAnswerSeries > this.longestSeries) {
+            this.longestSeries = this.rightAnswerSeries;
+          }
+          console.log(this.longestSeries);
+          this.rightAnswerSeries = 0;
           this.wrongAnswers.push(answer);
           answerEl.style.textDecoration = 'line-through';
           this.onSelectAnswer('wrong');
@@ -69,6 +89,10 @@ export default class AudioCallView {
     });
     const dontKnowButton = new Component('button', 'result-button', `Не знаю`).node;
     dontKnowButton.addEventListener('click' , () => {
+      if (this.rightAnswerSeries > this.longestSeries) {
+        this.longestSeries = this.rightAnswerSeries;
+      }
+      this.rightAnswerSeries = 0;
       this.onSelectAnswer('wrong');
       this.showAnswer(rightAnswer);
       this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
@@ -94,7 +118,6 @@ export default class AudioCallView {
     const dontKnowButton = <HTMLButtonElement>document.querySelector('.result-button');
     dontKnowButton.remove();
     const rightAnswer = <HTMLButtonElement>document.querySelector('.right-answer');
-    console.log(rightAnswer);
     rightAnswer.classList.add('answer-container-right');
     const resultButton = new Component('button', 'result-button next', `→`).node;
     this.gameContainer.append(resultButton);
@@ -136,6 +159,18 @@ export default class AudioCallView {
   }
 
   showResult() {
+    const statistics: Statistics = {
+      learnedWords: this.rightAnswers.length,
+      optional: {
+        audiocall: {
+          rightAnswers: this.rightAnswers.length,
+          wrongAnswers: this.wrongAnswers.length,
+          rightSeries: this.longestSeries,
+          firstTimeInGame: today(),
+        }
+      }
+    }
+    this.presenter.sendStatistics(statistics);
     const allAnswersContainer = new Component('div', 'all-answers').node;
     if (this.wrongAnswers.length > 0) {
       const wrongAnswersContainer = this.createWordsList(this.wrongAnswers, 'wrong', 'Ошибок');
