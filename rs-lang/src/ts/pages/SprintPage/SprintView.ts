@@ -68,11 +68,30 @@ export default class SprintView {
     leftButton.addEventListener('click', () => {
       this.nextQuestionFalse();
     });
+
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code == 'ArrowLeft') {
+        this.nextQuestionFalse();
+        
+        
+      }
+    });
+
+    
     buttonsGroup.append(leftButton);
     const rightButton = new Component('button', 'btn-answer btn-right', 'Верно').node;
     rightButton.addEventListener('click', () => {
       this.nextQuestionTrue();
     });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code == 'ArrowRight') {
+        this.nextQuestionTrue()
+        
+      }
+    });
+
     buttonsGroup.append(rightButton);
     this.gameContainer.append(buttonsGroup);
     this.renderMainWords(this.numberWordsEng, this.numberWordsRus);
@@ -280,6 +299,7 @@ renderCircleBlock = () => {
    />
     `
 }
+
 
 renderResultsPage = (arrayTranscription:string[]) =>{
   const html =`
