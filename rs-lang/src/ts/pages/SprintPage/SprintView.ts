@@ -73,8 +73,12 @@ export default class SprintView {
     document.addEventListener('keydown', (event) => {
       if (event.code == 'ArrowLeft') {
         this.nextQuestionFalse();
-        
-        
+        leftButton.style.backgroundColor = "grey";
+      }
+    });
+    document.addEventListener('keyup', (event) => {
+      if (event.code == 'ArrowLeft') {
+        leftButton.style.backgroundColor = "transparent";
       }
     });
 
@@ -88,7 +92,12 @@ export default class SprintView {
     document.addEventListener('keydown', (event) => {
       if (event.code == 'ArrowRight') {
         this.nextQuestionTrue()
-        
+        rightButton.style.backgroundColor = "grey";
+      }
+    });
+    document.addEventListener('keyup', (event) => {
+      if (event.code == 'ArrowRight') {
+        rightButton.style.backgroundColor = "transparent";
       }
     });
 
