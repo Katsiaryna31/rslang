@@ -30,8 +30,6 @@ export default class SprintView {
     await this.presenter.createQuiz(level, page);
     this.renderToyBlock();
     this.renderCircleBlock();
-
-    
   }
 
   renderSprint = (arrayEng: string[], arrayRus: string[]) => {
@@ -73,7 +71,7 @@ export default class SprintView {
     document.addEventListener('keydown', (event) => {
       if (event.code == 'ArrowLeft') {
         this.nextQuestionFalse();
-        leftButton.style.backgroundColor = "grey";
+        leftButton.style.backgroundColor = "#c2c2c2ee";
       }
     });
     document.addEventListener('keyup', (event) => {
@@ -92,7 +90,7 @@ export default class SprintView {
     document.addEventListener('keydown', (event) => {
       if (event.code == 'ArrowRight') {
         this.nextQuestionTrue()
-        rightButton.style.backgroundColor = "grey";
+        rightButton.style.backgroundColor = "#c2c2c2ee";
       }
     });
     document.addEventListener('keyup', (event) => {
@@ -112,6 +110,7 @@ renderMainWords = (numberWordsEng: number, numberWordsRus:number) => {
   src="./images/sound.svg" alt="sound" />
      <h5 class="card-title">${this.arrayEng[numberWordsEng]}</h5>
      <p class="card-text">${this.arrayRus[numberWordsRus]}</p>`;
+     this.playAudio();
  }
 
 nextQuestionTrue = () =>  {
@@ -144,7 +143,6 @@ nextQuestionTrue = () =>  {
   }
 
    this.renderMainWords(this.numberWordsEng, this.numberWordsRus);
-   this.presenter.playSound(this.numberWordsEng);
 }
 
 nextQuestionFalse = () => {
@@ -176,7 +174,13 @@ nextQuestionFalse = () => {
   } 
 
   this.renderMainWords(this.numberWordsEng, this.numberWordsRus);
-  this.presenter.playSound(this.numberWordsEng);
+}
+
+playAudio = () =>{
+  let audioBut = document.getElementById('sound-image') as HTMLImageElement;
+  audioBut.addEventListener('click', ()=> {
+    this.presenter.playSound(this.numberWordsEng + 1);;
+  })
 }
 
 sumResult = () => {

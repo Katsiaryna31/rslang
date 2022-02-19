@@ -22,7 +22,6 @@ export default class SprintPresenter {
 
   endGame(){
     this.view.renderResultsPage(this.model.arrayTranscr);
-    this.playSound(this.view.numberWordsEng);
   }
 
   async addQuestion() {
