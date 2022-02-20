@@ -5,6 +5,7 @@ import sprintPage from "./pages/SprintPage/SprintPage";
 import Page from "./common/Page";
 import textBookPage from "./pages/TextBook/TextBook";
 import TeamPage from "./pages/TeamPage/TeamPage";
+import statisticsPage from "./pages/StatisticsPage/StatisticsPage";
 
 export type Path = {
   resource: string;
@@ -26,17 +27,12 @@ const routes = [
   { path: 'sprint', component: sprintPage },
   { path: 'textbook', component: textBookPage },
   { path: 'about', component: TeamPage },
+  { path: 'statistics', component: statisticsPage },
 ];
 
 const parseLocation: () => Path = () => {
   const pathName = (window.location.hash.slice(2).toLowerCase() || '/').split('/');
   const path: Path = { resource: pathName[0] };
-  // if (pathName[1]) {
-  //   path.section = +pathName[1];
-  // }
-  // if (pathName[2]) {
-  //   path.id = +pathName[2];
-  // }
   return path;
 };
 

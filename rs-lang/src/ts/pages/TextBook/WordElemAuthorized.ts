@@ -47,6 +47,7 @@ export default class WordElemAuthorized extends WordElem{
       if (!hardWordBtn.classList.contains('active')) {
         hardWordBtn.classList.add('active');
         learnedWordBtn.classList.remove('active');
+        this.node.classList.remove('dark');
         await this.presenter.wordDifficultyUpdate(hardWordBtn, data._id, 'hard');
       } else {
         hardWordBtn.classList.remove('active');

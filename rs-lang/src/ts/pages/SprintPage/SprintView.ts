@@ -111,14 +111,17 @@ renderMainWords = (numberWordsEng: number, numberWordsRus:number) => {
      <h5 class="card-title">${this.arrayEng[numberWordsEng]}</h5>
      <p class="card-text">${this.arrayRus[numberWordsRus]}</p>`;
      this.playAudio();
+
  }
 
 nextQuestionTrue = () =>  {
   if(this.numberWordsEng === this.numberWordsRus){
+      this.presenter.onWordWin(this.numberWordsEng);
       this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng]);
       this.arrBooleanAnswer.push('true');
       audioTrue();
   } else {
+      this.presenter.onWordFail(this.numberWordsEng);
       this.arrTrueAnswer = [];
       this.arrBooleanAnswer.push('false');
       audioFalse()
@@ -146,14 +149,16 @@ nextQuestionTrue = () =>  {
 }
 
 nextQuestionFalse = () => {
-  if(this.numberWordsEng !== this.numberWordsRus){
-      this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng])
-      this.arrBooleanAnswer.push('true');
+  if (this.numberWordsEng !== this.numberWordsRus) {
+    this.presenter.onWordWin(this.numberWordsEng);
+    this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng])
+    this.arrBooleanAnswer.push('true');
       audioTrue();
   } else {
-      this.arrTrueAnswer = [];
-      this.arrBooleanAnswer.push('false');
-      audioFalse()
+    this.presenter.onWordFail(this.numberWordsEng);
+    this.arrTrueAnswer = [];
+    this.arrBooleanAnswer.push('false');
+    audioFalse()
   }
   this.sumResult();
   this.renderCircleBlock();
@@ -181,6 +186,7 @@ playAudio = () =>{
   audioBut.addEventListener('click', ()=> {
     this.presenter.playSound(this.numberWordsEng + 1);;
   })
+
 }
 
 sumResult = () => {

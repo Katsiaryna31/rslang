@@ -25,8 +25,10 @@ export interface UserWord {
     wins: number,
     fails: number,
     straightWins: number,
-    lastAnswer: string,
     playedInGame: boolean,
+    firstGameName?: string,
+    firstTimeInGame?: string,
+    learnedOn: string,
   },
 }
 

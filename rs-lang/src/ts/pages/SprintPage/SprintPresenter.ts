@@ -1,5 +1,6 @@
 import { audioStart } from "../../common/utils";
 import { Words } from "../../common/wordInterfaces";
+import { updateWordFails, updateWordWins } from "../StatisticsPage/wordStats";
 import SprintModel from "./SprintModel";
 import SprintView from "./SprintView";
 
@@ -50,11 +51,22 @@ export default class SprintPresenter {
   async createQuiz(level: string, page: string) {
     this.level = level;
     this.page = page;
-    await this.model.makeQuestionsArray(this.level, this.page);
+    if (this.level === '6') {
+      await this.model.getHardWords();
+    } else {
+      await this.model.makeQuestionsArray(this.level, this.page);
+    }
     audioStart()
     this.view.renderSprint(this.model.arrayEng, this.model.arrayRus);
     this.timer();
     
   }
-  
+
+  onWordWin(wordOrder: number) {
+    updateWordWins(this.model.arrayId[wordOrder], 'sprint');
+  }
+
+  onWordFail(wordOrder: number) {
+    updateWordFails(this.model.arrayId[wordOrder], 'sprint');
+  }
 }
