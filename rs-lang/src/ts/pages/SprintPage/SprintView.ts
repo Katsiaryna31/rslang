@@ -23,11 +23,13 @@ export default class SprintView {
   soundImage = <HTMLImageElement>document.getElementById('sound-image');
 
   constructor () {
-
+    
   }
 
   async startQuiz(level: string, page: string) {
     await this.presenter.createQuiz(level, page);
+    this.renderToyBlock();
+    this.renderCircleBlock();
   }
 
   renderSprint = (arrayEng: string[], arrayRus: string[]) => {
@@ -64,11 +66,39 @@ export default class SprintView {
     leftButton.addEventListener('click', () => {
       this.nextQuestionFalse();
     });
+
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code == 'ArrowLeft') {
+        this.nextQuestionFalse();
+        leftButton.style.backgroundColor = "#c2c2c2ee";
+      }
+    });
+    document.addEventListener('keyup', (event) => {
+      if (event.code == 'ArrowLeft') {
+        leftButton.style.backgroundColor = "transparent";
+      }
+    });
+
+    
     buttonsGroup.append(leftButton);
     const rightButton = new Component('button', 'btn-answer btn-right', 'Верно').node;
     rightButton.addEventListener('click', () => {
       this.nextQuestionTrue();
     });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code == 'ArrowRight') {
+        this.nextQuestionTrue()
+        rightButton.style.backgroundColor = "#c2c2c2ee";
+      }
+    });
+    document.addEventListener('keyup', (event) => {
+      if (event.code == 'ArrowRight') {
+        rightButton.style.backgroundColor = "transparent";
+      }
+    });
+
     buttonsGroup.append(rightButton);
     this.gameContainer.append(buttonsGroup);
     this.renderMainWords(this.numberWordsEng, this.numberWordsRus);
@@ -80,9 +110,8 @@ renderMainWords = (numberWordsEng: number, numberWordsRus:number) => {
   src="./images/sound.svg" alt="sound" />
      <h5 class="card-title">${this.arrayEng[numberWordsEng]}</h5>
      <p class="card-text">${this.arrayRus[numberWordsRus]}</p>`;
-     setTimeout(() => {
-      this.presenter.playSound(this.numberWordsEng);
-    }, 1000);
+     this.playAudio();
+
  }
 
 nextQuestionTrue = () =>  {
@@ -152,6 +181,14 @@ nextQuestionFalse = () => {
   this.renderMainWords(this.numberWordsEng, this.numberWordsRus);
 }
 
+playAudio = () =>{
+  let audioBut = document.getElementById('sound-image') as HTMLImageElement;
+  audioBut.addEventListener('click', ()=> {
+    this.presenter.playSound(this.numberWordsEng + 1);;
+  })
+
+}
+
 sumResult = () => {
   const resultSum = <HTMLParagraphElement>document.getElementById('result');
   if(this.arrTrueAnswer.length === 1){
@@ -204,8 +241,6 @@ renderCircleBlock = () => {
       }
       if(this.arrTrueAnswer.length >= 3 && this.arrTrueAnswer.length < 6){
         addPoint = "+10";
-  /*        document.body.card.innerPoint.style.backgroundColor = "red";
-   */      /* innerPoint.style.backgroundColor = "red"; */
       }
       if(this.arrTrueAnswer.length >= 6 && this.arrTrueAnswer.length < 9){
         addPoint = "+25";
@@ -283,6 +318,7 @@ renderCircleBlock = () => {
    />
     `
 }
+
 
 renderResultsPage = (arrayTranscription:string[]) =>{
   const html =`

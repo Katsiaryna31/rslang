@@ -59,6 +59,7 @@ export default class SprintPresenter {
     audioStart()
     this.view.renderSprint(this.model.arrayEng, this.model.arrayRus);
     this.timer();
+    
   }
 
   onWordWin(wordOrder: number) {
