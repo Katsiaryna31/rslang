@@ -33,8 +33,7 @@ export default class AudioCallPresenter {
     }
 
     async sendStatistics(statistics: Statistics) {
-      console.log(statistics);
-      this.model.updateUserStatistics(statistics);
+      await this.model.updateUserStatistics(statistics);
     }
 
     async renderAnswers() {

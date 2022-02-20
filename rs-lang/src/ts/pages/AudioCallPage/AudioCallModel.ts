@@ -62,8 +62,12 @@ export default class AudioCallModel {
   async getUserStatistics() {
     let response = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {
       method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
     });
-    console.log(response);
     if (response.ok) {
       const content:Statistics = await response.json();
       return content;
@@ -73,7 +77,7 @@ export default class AudioCallModel {
 
   async updateUserStatistics(statistics: Statistics) {
     let currentData = await this.getUserStatistics();
-    if (!currentData || currentData.optional.audiocall && currentData.optional.audiocall.firstTimeInGame !== today()) {
+    if (!currentData || currentData.optional.firstTimeInGame !== today()) {
       const rawResponse = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {
         method: 'PUT',
         headers: {
@@ -84,18 +88,22 @@ export default class AudioCallModel {
         body: JSON.stringify(statistics)
       });
       const content = await rawResponse.json();
-      console.log(content);
     } else {
       if (statistics.optional.audiocall && currentData.optional.audiocall) {
         const updatedData: Statistics = {
           learnedWords: currentData.learnedWords + statistics.learnedWords,
           optional: {
+            firstTimeInGame: statistics.optional.firstTimeInGame,
             audiocall: {
               rightAnswers: currentData.optional.audiocall.rightAnswers + statistics.optional.audiocall.rightAnswers,
               wrongAnswers: currentData.optional.audiocall.wrongAnswers + statistics.optional.audiocall.wrongAnswers,
               rightSeries: (currentData.optional.audiocall.rightSeries > statistics.optional.audiocall.rightSeries)? currentData.optional.audiocall.rightSeries : statistics.optional.audiocall.rightSeries,
-              firstTimeInGame: statistics.optional.audiocall.firstTimeInGame,
-            }
+            },
+            sprint: {
+              rightAnswers: currentData.optional.sprint.rightAnswers,
+              wrongAnswers: currentData.optional.sprint.wrongAnswers,
+              rightSeries: currentData.optional.sprint.rightSeries,
+            },
           }
         }
         const rawResponse = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {

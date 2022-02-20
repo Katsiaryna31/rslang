@@ -11,14 +11,16 @@ export default class AudioCallView {
   wrongAnswers: Word[] = [];
   rightAnswerSeries:number = 0;
   longestSeries: number = 0;
+  question: Word | undefined;
+  answers: Word[] = [];
  
   gameContainer = <HTMLDivElement>document.querySelector('.audiocall');
-
   constructor () {
 
   }
 
   async startQuiz(level: string, page: string) {
+    this.addKeyEvents();
     await this.presenter.createQuiz(level, page);
   }
 
@@ -26,18 +28,7 @@ export default class AudioCallView {
     const pageWrapper = <HTMLDivElement>document.querySelector('.audiocall-wrapper');
     const closePageButton = new Component('button', 'close-audiocall', '×').node;
     closePageButton.addEventListener('click', () => {
-      const statistics: Statistics = {
-        learnedWords: this.rightAnswers.length,
-        optional: {
-          audiocall: {
-            rightAnswers: this.rightAnswers.length,
-            wrongAnswers: this.wrongAnswers.length,
-            rightSeries: this.longestSeries,
-            firstTimeInGame: today(),
-          }
-        }
-      }
-      createPopUp('audiocall', this.presenter, statistics);
+      createPopUp('audiocall', this.presenter, this.prepareStatistics());
     })
     pageWrapper.append(closePageButton);
     const questionContainer = <HTMLDivElement>document.querySelector('.question-container');
@@ -55,6 +46,8 @@ export default class AudioCallView {
   }
 
   async displayAnswers(answers: Words, rightAnswer: Word) {
+    this.question = rightAnswer;
+    this.answers = answers;
     let rightAnswerId = (rightAnswer.id !== undefined) ? rightAnswer.id : rightAnswer._id;
     const questionContainer = new Component('div', 'question-container').node;
     const answersContainer = new Component('div', 'answers-container').node;
@@ -68,7 +61,6 @@ export default class AudioCallView {
       answerEl.addEventListener('click', () => {
         if (answerId === rightAnswerId) {
           this.rightAnswerSeries++;
-          console.log( this.rightAnswerSeries);
           this.rightAnswers.push(answer);
           this.onSelectAnswer('right');
           this.showAnswer(rightAnswer);
@@ -77,7 +69,6 @@ export default class AudioCallView {
           if (this.rightAnswerSeries > this.longestSeries) {
             this.longestSeries = this.rightAnswerSeries;
           }
-          console.log(this.longestSeries);
           this.rightAnswerSeries = 0;
           this.wrongAnswers.push(answer);
           answerEl.style.textDecoration = 'line-through';
@@ -101,6 +92,79 @@ export default class AudioCallView {
     this.gameContainer.append(answersContainer);
     this.gameContainer.append(dontKnowButton);
     await this.displayQuestion(rightAnswer);
+  }
+
+  addKeyEvents = () => {
+    window.addEventListener('keydown', async (e) => {
+      const answersDOM:NodeListOf<HTMLElement> = document.querySelectorAll('.answer-container');
+      const rightAnswerDOM = document.querySelector('.right-answer');
+      const rightAnswerNumber = rightAnswerDOM?.innerHTML.split('.')[0];
+      if (this.question !== undefined) {
+      if (e.key === rightAnswerNumber) {
+          this.rightAnswerSeries++;
+          this.rightAnswers.push(this.question);
+          this.onSelectAnswer('right');
+          this.showAnswer(this.question);
+          this.presenter.onWordWin(this.question.id || this.question._id);
+      } else if (e.key === 'Enter') {
+        const resultButton = <HTMLButtonElement>document.querySelector('.result-button.next');
+        console.log(resultButton);
+        if (!resultButton) {
+          if (this.rightAnswerSeries > this.longestSeries) {
+            this.longestSeries = this.rightAnswerSeries;
+          }
+          this.rightAnswerSeries = 0;
+          this.onSelectAnswer('wrong');
+          this.showAnswer(this.question);
+          this.presenter.onWordFail(this.question.id || this.question._id);
+        } else {
+          while (this.gameContainer.firstChild) {
+            this.gameContainer.removeChild(this.gameContainer.firstChild);
+          }
+          await this.presenter.createNextQuestion();
+        }
+      } else {
+          this.rightAnswerSeries = 0;
+          answersDOM.forEach(el => {
+            if (e.key === el.innerHTML.split('.')[0]) {
+              let wrongAnswer = el.innerHTML.split('.')[1];
+              this.answers.forEach(answer => {
+                if (wrongAnswer.includes(answer.wordTranslate)) {
+                  this.wrongAnswers.push(answer);
+                  el.style.textDecoration = 'line-through';
+                }
+              })
+            }
+          })
+          this.onSelectAnswer('wrong');
+          this.showAnswer(this.question);
+          this.presenter.onWordFail(this.question.id || this.question._id);
+      }
+    }
+    })
+  }
+
+  prepareStatistics = () => {
+    if (this.rightAnswerSeries > this.longestSeries) {
+      this.longestSeries = this.rightAnswerSeries;
+    }
+    const statistics: Statistics = {
+      learnedWords: this.rightAnswers.length,
+      optional: {
+        firstTimeInGame: today(),
+        audiocall: {
+          rightAnswers: this.rightAnswers.length,
+          wrongAnswers: this.wrongAnswers.length,
+          rightSeries: this.longestSeries, 
+        },
+        sprint: {
+          rightAnswers: 0,
+          wrongAnswers: 0,
+          rightSeries: 0,
+        }
+      }
+    }
+    return statistics;
   }
 
   showAnswer(answer: Word) {
@@ -159,18 +223,7 @@ export default class AudioCallView {
   }
 
   showResult() {
-    const statistics: Statistics = {
-      learnedWords: this.rightAnswers.length,
-      optional: {
-        audiocall: {
-          rightAnswers: this.rightAnswers.length,
-          wrongAnswers: this.wrongAnswers.length,
-          rightSeries: this.longestSeries,
-          firstTimeInGame: today(),
-        }
-      }
-    }
-    this.presenter.sendStatistics(statistics);
+    this.presenter.sendStatistics(this.prepareStatistics());
     const allAnswersContainer = new Component('div', 'all-answers').node;
     if (this.wrongAnswers.length > 0) {
       const wrongAnswersContainer = this.createWordsList(this.wrongAnswers, 'wrong', 'Ошибок');

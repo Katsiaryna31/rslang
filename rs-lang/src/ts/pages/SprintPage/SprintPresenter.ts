@@ -1,11 +1,10 @@
 import { audioStart } from "../../common/utils";
-import { Words } from "../../common/wordInterfaces";
+import { Statistics, Words } from "../../common/wordInterfaces";
 import { updateWordFails, updateWordWins } from "../StatisticsPage/wordStats";
 import SprintModel from "./SprintModel";
 import SprintView from "./SprintView";
 
 export default class SprintPresenter {
-  private questionsPerLevel: number = 10;
   level:string = 'any';
   page:string = 'any'
   model: SprintModel  = new SprintModel();
@@ -23,6 +22,10 @@ export default class SprintPresenter {
 
   endGame(){
     this.view.renderResultsPage(this.model.arrayTranscr);
+  }
+
+  async sendStatistics(statistics: Statistics) {
+    await this.model.updateUserStatistics(statistics);
   }
 
   async addQuestion() {

@@ -40,7 +40,7 @@ export function audioFalse(){
     song.play();
 }
 
-export function createPopUp(gameName: string, presenter: AudioCallPresenter, statistics: Statistics) {
+export function createPopUp(gameName: string, presenter: AudioCallPresenter|SprintPresenter, statistics: Statistics) {
     const popupOverlayComponent = new Component('div', 'popup__overlay');
     const popupOverlay = popupOverlayComponent.node;
     document.body.append(popupOverlay);
@@ -49,10 +49,10 @@ export function createPopUp(gameName: string, presenter: AudioCallPresenter, sta
     const textPopup = new Component('div', 'popup-text', 'Вы действительно хотите закончить игру?').node;
     popup.append(textPopup);
     const buttonStop = new Component('button', 'popup-stop', 'Закончить игру').node;
-    buttonStop.addEventListener('click', () => {
+    buttonStop.addEventListener('click', async () => {
         const root = document.querySelector('#root') as HTMLElement;
         root.innerHTML = '';
-        presenter.sendStatistics(statistics);
+        await presenter.sendStatistics(statistics);
         if (gameName === 'sprint') {
             const game = new SprintPage();
             const pageElement = game.render();

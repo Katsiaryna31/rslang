@@ -7,6 +7,11 @@ const token = localStorage.getItem(LocalStorageKey.token) || '';
 export async function updateGameStatistics(){
     let response = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {
       method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
     });
     if (response.ok) {
       const content:Statistics = await response.json();
