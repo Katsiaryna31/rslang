@@ -1,6 +1,9 @@
+import { Statistics } from './wordInterfaces';
 import { AudioCallPage } from './../pages/AudioCallPage/AudioCallPage';
 import { SprintPage } from "../pages/SprintPage/SprintPage";
 import Component from "./Component";
+import SprintPresenter from '../pages/SprintPage/SprintPresenter';
+import AudioCallPresenter from '../pages/AudioCallPage/AudioCallPresenter';
 
 export function shuffle<T> (array:T[]):T[] {
     let result = array;
@@ -37,7 +40,7 @@ export function audioFalse(){
     song.play();
 }
 
-export function createPopUp(gameName: string) {
+export function createPopUp(gameName: string, presenter: AudioCallPresenter|SprintPresenter, statistics: Statistics) {
     const popupOverlayComponent = new Component('div', 'popup__overlay');
     const popupOverlay = popupOverlayComponent.node;
     document.body.append(popupOverlay);
@@ -46,9 +49,10 @@ export function createPopUp(gameName: string) {
     const textPopup = new Component('div', 'popup-text', 'Вы действительно хотите закончить игру?').node;
     popup.append(textPopup);
     const buttonStop = new Component('button', 'popup-stop', 'Закончить игру').node;
-    buttonStop.addEventListener('click', () => {
+    buttonStop.addEventListener('click', async () => {
         const root = document.querySelector('#root') as HTMLElement;
         root.innerHTML = '';
+        await presenter.sendStatistics(statistics);
         if (gameName === 'sprint') {
             const game = new SprintPage();
             const pageElement = game.render();

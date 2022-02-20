@@ -17,3 +17,20 @@ export interface Word {
 };
 
 export interface Words extends Array<Word>{};
+
+export interface Statistics {
+  learnedWords: number,
+  optional: {
+    firstTimeInGame: string,
+    audiocall: {
+      rightAnswers: number,
+      wrongAnswers: number,
+      rightSeries: number,
+    }
+    sprint: {
+      rightAnswers: number,
+      wrongAnswers: number,
+      rightSeries: number,
+    }
+  },
+}

@@ -1,5 +1,6 @@
-import { Words } from "../../common/wordInterfaces";
+import { Statistics, Words } from "../../common/wordInterfaces";
 import { BASE_LINK, LocalStorageKey } from "../../settings";
+import { today } from "../StatisticsPage/wordStats";
 import TextBookModel from "../TextBook/TextBookModel";
 
 const userId = localStorage.getItem(LocalStorageKey.id) || '';
@@ -58,4 +59,64 @@ export default class AudioCallModel {
     }
   }
 
+  async getUserStatistics() {
+    let response = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    });
+    if (response.ok) {
+      const content:Statistics = await response.json();
+      return content;
+    }
+    return null
+  }
+
+  async updateUserStatistics(statistics: Statistics) {
+    let currentData = await this.getUserStatistics();
+    if (!currentData || currentData.optional.firstTimeInGame !== today()) {
+      const rawResponse = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(statistics)
+      });
+      const content = await rawResponse.json();
+    } else {
+      if (statistics.optional.audiocall && currentData.optional.audiocall) {
+        const updatedData: Statistics = {
+          learnedWords: currentData.learnedWords + statistics.learnedWords,
+          optional: {
+            firstTimeInGame: statistics.optional.firstTimeInGame,
+            audiocall: {
+              rightAnswers: currentData.optional.audiocall.rightAnswers + statistics.optional.audiocall.rightAnswers,
+              wrongAnswers: currentData.optional.audiocall.wrongAnswers + statistics.optional.audiocall.wrongAnswers,
+              rightSeries: (currentData.optional.audiocall.rightSeries > statistics.optional.audiocall.rightSeries)? currentData.optional.audiocall.rightSeries : statistics.optional.audiocall.rightSeries,
+            },
+            sprint: {
+              rightAnswers: currentData.optional.sprint.rightAnswers,
+              wrongAnswers: currentData.optional.sprint.wrongAnswers,
+              rightSeries: currentData.optional.sprint.rightSeries,
+            },
+          }
+        }
+        const rawResponse = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedData)
+        });
+        const content = await rawResponse.json();
+      }
+    };
+  }
 }

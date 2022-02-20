@@ -1,3 +1,4 @@
+import { Statistics } from './../../common/wordInterfaces';
 import { Words } from "../../common/wordInterfaces";
 import { updateWordFails, updateWordWins } from "../StatisticsPage/wordStats";
 import AudioCallModel from "./AudioCallModel";
@@ -29,6 +30,10 @@ export default class AudioCallPresenter {
       } else {
         this.view.showResult();
       }
+    }
+
+    async sendStatistics(statistics: Statistics) {
+      await this.model.updateUserStatistics(statistics);
     }
 
     async renderAnswers() {
