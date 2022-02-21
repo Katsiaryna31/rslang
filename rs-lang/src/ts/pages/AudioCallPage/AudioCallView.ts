@@ -1,6 +1,7 @@
 import Component from "../../common/Component";
 import { createPopUp, shuffle } from "../../common/utils";
 import { Statistics, Word, Words } from "../../common/wordInterfaces";
+import { LocalStorageKey } from "../../settings";
 import { today } from "../StatisticsPage/wordStats";
 import AudioCallPresenter from './AudioCallPresenter';
 import LevelChoice from "./LevelChoice";
@@ -220,7 +221,9 @@ export default class AudioCallView {
   }
 
   showResult() {
-    this.presenter.sendStatistics(this.prepareStatistics());
+    if (localStorage.getItem(LocalStorageKey.id)) {
+      this.presenter.sendStatistics(this.prepareStatistics());
+    }
     const allAnswersContainer = new Component('div', 'all-answers').node;
     if (this.wrongAnswers.length > 0) {
       const wrongAnswersContainer = this.createWordsList(this.wrongAnswers, 'wrong', 'Ошибок');

@@ -1,6 +1,7 @@
 import Component from "../../common/Component";
 import { audioFalse, audioTrue, createPopUp, getRandom } from "../../common/utils";
 import { Statistics, Word } from "../../common/wordInterfaces";
+import { LocalStorageKey } from "../../settings";
 import { today } from "../StatisticsPage/wordStats";
 import SprintPresenter from "./SprintPresenter";
 
@@ -354,7 +355,9 @@ prepareStatistics = () => {
 }
 
 renderResultsPage = (arrayTranscription:string[]) =>{
-  this.presenter.sendStatistics(this.prepareStatistics());
+  if (localStorage.getItem(LocalStorageKey.id)) {
+    this.presenter.sendStatistics(this.prepareStatistics());
+  }
   const html =`
   <div class="card">
   <h6 class="card-title">Ваш результат ${this.count}</h6>
