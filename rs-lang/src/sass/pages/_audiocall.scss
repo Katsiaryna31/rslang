@@ -66,6 +66,10 @@
     width: 100%;
 }
 
+.choice-button {
+    margin-bottom: 10px;
+}
+
 .audiocall-start:hover,
 .choice-button:hover {
     cursor: pointer;
@@ -103,6 +107,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .answer-container {
@@ -226,3 +231,9 @@
     color: rgba(255,255,255,0.7);
 }
 
+@media screen and (max-width: 550px) {
+    .game-header {
+        font-size: 36px;
+        letter-spacing: 8px;
+    }
+  }

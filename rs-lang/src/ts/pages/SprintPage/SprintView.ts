@@ -1,6 +1,7 @@
 import Component from "../../common/Component";
 import { audioFalse, audioTrue, createPopUp, getRandom } from "../../common/utils";
 import { Statistics, Word } from "../../common/wordInterfaces";
+import { LocalStorageKey } from "../../settings";
 import { today } from "../StatisticsPage/wordStats";
 import SprintPresenter from "./SprintPresenter";
 
@@ -116,7 +117,9 @@ renderMainWords = (numberWordsEng: number, numberWordsRus:number) => {
 nextQuestionTrue = () =>  {
   if(this.numberWordsEng === this.numberWordsRus){
       this.rightAnswerSeries++;
-      this.presenter.onWordWin(this.numberWordsEng);
+      if (localStorage.getItem(LocalStorageKey.id)) {
+        this.presenter.onWordWin(this.numberWordsEng);
+      }
       this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng]);
       this.arrBooleanAnswer.push('true');
       audioTrue();
@@ -125,7 +128,9 @@ nextQuestionTrue = () =>  {
       this.longestSeries = this.rightAnswerSeries;
     }
     this.rightAnswerSeries = 0;
+    if (localStorage.getItem(LocalStorageKey.id)) {
       this.presenter.onWordFail(this.numberWordsEng);
+    }
       this.arrTrueAnswer = [];
       this.arrBooleanAnswer.push('false');
       audioFalse()
@@ -155,7 +160,9 @@ nextQuestionTrue = () =>  {
 nextQuestionFalse = () => {
   if (this.numberWordsEng !== this.numberWordsRus) {
     this.rightAnswerSeries++;
-    this.presenter.onWordWin(this.numberWordsEng);
+    if (localStorage.getItem(LocalStorageKey.id)) {
+      this.presenter.onWordWin(this.numberWordsEng);
+    }
     this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng])
     this.arrBooleanAnswer.push('true');
       audioTrue();
@@ -164,7 +171,9 @@ nextQuestionFalse = () => {
       this.longestSeries = this.rightAnswerSeries;
     }
     this.rightAnswerSeries = 0;
-    this.presenter.onWordFail(this.numberWordsEng);
+    if (localStorage.getItem(LocalStorageKey.id)) {
+      this.presenter.onWordFail(this.numberWordsEng);
+    }
     this.arrTrueAnswer = [];
     this.arrBooleanAnswer.push('false');
     audioFalse()
@@ -354,7 +363,9 @@ prepareStatistics = () => {
 }
 
 renderResultsPage = (arrayTranscription:string[]) =>{
-  this.presenter.sendStatistics(this.prepareStatistics());
+  if (localStorage.getItem(LocalStorageKey.id)) {
+    this.presenter.sendStatistics(this.prepareStatistics());
+  }
   const html =`
   <div class="card">
   <h6 class="card-title">Ваш результат ${this.count}</h6>
@@ -378,7 +389,7 @@ renderResultsPage = (arrayTranscription:string[]) =>{
 
    for(let i = 1; i <= this.numberWordsEng; i++){
     const resultItem = new Component('li', 'sprint-results-item', ).node;
-    const audioImage = `<img src="../../images/sound.svg" alt="sound" class="results-img" data-number="${i-1}" id='sound-image${i-1}'>`;
+    const audioImage = `<img src="images/sound.svg" alt="sound" class="results-img" data-number="${i-1}" id='sound-image${i-1}'>`;
     const audioButton = new Component('button', 'sprint-results-button').node;
     audioButton.innerHTML =  audioImage;
     audioButton.addEventListener('click', ()=> {

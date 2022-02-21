@@ -1,10 +1,12 @@
 import Component from "../../common/Component";
 import { createPopUp, shuffle } from "../../common/utils";
 import { Statistics, Word, Words } from "../../common/wordInterfaces";
+import { LocalStorageKey } from "../../settings";
 import { today } from "../StatisticsPage/wordStats";
 import AudioCallPresenter from './AudioCallPresenter';
+import LevelChoice from "./LevelChoice";
 
-
+const answersNumbers = ['1', '2', '3', '4', '5'];
 export default class AudioCallView {
   private presenter: AudioCallPresenter = new AudioCallPresenter(this);
   rightAnswers: Word[] = [];
@@ -13,6 +15,8 @@ export default class AudioCallView {
   longestSeries: number = 0;
   question: Word | undefined;
   answers: Word[] = [];
+  level: string = '';
+  page: string = '';
  
   gameContainer = <HTMLDivElement>document.querySelector('.audiocall');
   constructor () {
@@ -20,6 +24,8 @@ export default class AudioCallView {
   }
 
   async startQuiz(level: string, page: string) {
+    this.level = level;
+    this.page = page;
     this.addKeyEvents();
     await this.presenter.createQuiz(level, page);
   }
@@ -34,7 +40,7 @@ export default class AudioCallView {
     const questionContainer = <HTMLDivElement>document.querySelector('.question-container');
     const questionText = new Component('div', 'question-text-container').node;
     const soundButton = new Component('button', 'question-button').node;
-    const soundImage = new Component('img', 'question-image', '', {src: '../../images/sound.svg', width: '54', height: '54'}).node;
+    const soundImage = new Component('img', 'question-image', '', {src: 'images/sound.svg', width: '54', height: '54'}).node;
     soundButton.append(soundImage);
     const audio = new Audio(`https://rss-words-3.herokuapp.com/${question.audio}`);
     await audio.play();
@@ -64,7 +70,10 @@ export default class AudioCallView {
           this.rightAnswers.push(answer);
           this.onSelectAnswer('right');
           this.showAnswer(rightAnswer);
-          this.presenter.onWordWin(rightAnswer.id || rightAnswer._id);
+          if (localStorage.getItem(LocalStorageKey.id)) {
+            this.presenter.onWordWin(rightAnswer.id || rightAnswer._id);
+          }
+          
         } else {
           if (this.rightAnswerSeries > this.longestSeries) {
             this.longestSeries = this.rightAnswerSeries;
@@ -74,7 +83,10 @@ export default class AudioCallView {
           answerEl.style.textDecoration = 'line-through';
           this.onSelectAnswer('wrong');
           this.showAnswer(rightAnswer);
-          this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+          if (localStorage.getItem(LocalStorageKey.id)) {
+            this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+          }
+          
         }
       })
     });
@@ -86,7 +98,9 @@ export default class AudioCallView {
       this.rightAnswerSeries = 0;
       this.onSelectAnswer('wrong');
       this.showAnswer(rightAnswer);
-      this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+      if (localStorage.getItem(LocalStorageKey.id)) {
+        this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+      }
     });
     this.gameContainer.append(questionContainer);
     this.gameContainer.append(answersContainer);
@@ -99,16 +113,24 @@ export default class AudioCallView {
       const answersDOM:NodeListOf<HTMLElement> = document.querySelectorAll('.answer-container');
       const rightAnswerDOM = document.querySelector('.right-answer');
       const rightAnswerNumber = rightAnswerDOM?.innerHTML.split('.')[0];
+      const resultButton = <HTMLButtonElement>document.querySelector('.result-button.next');
       if (this.question !== undefined) {
-      if (e.key === rightAnswerNumber) {
+      if (e.key === rightAnswerNumber && !resultButton) {
           this.rightAnswerSeries++;
           this.rightAnswers.push(this.question);
           this.onSelectAnswer('right');
           this.showAnswer(this.question);
           this.presenter.onWordWin(this.question.id || this.question._id);
-      } else if (e.key === 'Enter') {
-        const resultButton = <HTMLButtonElement>document.querySelector('.result-button.next');
-        console.log(resultButton);
+      } else if (e.key !== rightAnswerNumber && answersNumbers.includes(e.key) && !resultButton) {
+        this.rightAnswerSeries = 0;
+        const orderNum = Number(e.key) - 1;
+        this.wrongAnswers.push(this.answers[orderNum]);
+        answersDOM[orderNum].style.textDecoration = 'line-through';
+        this.onSelectAnswer('wrong');
+        this.showAnswer(this.question);
+        this.presenter.onWordFail(this.question.id || this.question._id);
+    }
+      if (e.key === 'Enter') {
         if (!resultButton) {
           if (this.rightAnswerSeries > this.longestSeries) {
             this.longestSeries = this.rightAnswerSeries;
@@ -123,23 +145,7 @@ export default class AudioCallView {
           }
           await this.presenter.createNextQuestion();
         }
-      } else {
-          this.rightAnswerSeries = 0;
-          answersDOM.forEach(el => {
-            if (e.key === el.innerHTML.split('.')[0]) {
-              let wrongAnswer = el.innerHTML.split('.')[1];
-              this.answers.forEach(answer => {
-                if (wrongAnswer.includes(answer.wordTranslate)) {
-                  this.wrongAnswers.push(answer);
-                  el.style.textDecoration = 'line-through';
-                }
-              })
-            }
-          })
-          this.onSelectAnswer('wrong');
-          this.showAnswer(this.question);
-          this.presenter.onWordFail(this.question.id || this.question._id);
-      }
+      } 
     }
     })
   }
@@ -177,7 +183,7 @@ export default class AudioCallView {
   }
 
   onSelectAnswer(statusAnswer: string) {
-    const audio = new Audio(`../../sounds/${statusAnswer}.mp3`);
+    const audio = new Audio(`sounds/${statusAnswer}.mp3`);
     audio.play();
     const dontKnowButton = <HTMLButtonElement>document.querySelector('.result-button');
     dontKnowButton.remove();
@@ -203,7 +209,7 @@ export default class AudioCallView {
       answers.forEach(answer => {
         const wordItem = new Component('li', 'answer-item').node;
         const soundButton = new Component('button', 'answer-sound-button').node;
-        const soundImage = new Component('img', 'answer-sound-image', '', {src: '../../images/sound.svg', width: '30', height: '30'}).node;
+        const soundImage = new Component('img', 'answer-sound-image', '', {src: 'images/sound.svg', width: '30', height: '30'}).node;
         soundButton.append(soundImage);
         const audio = new Audio(`https://rsschool-learnwords.herokuapp.com/${answer.audio}`);
         soundButton.addEventListener('click', async () => {
@@ -223,7 +229,9 @@ export default class AudioCallView {
   }
 
   showResult() {
-    this.presenter.sendStatistics(this.prepareStatistics());
+    if (localStorage.getItem(LocalStorageKey.id)) {
+      this.presenter.sendStatistics(this.prepareStatistics());
+    }
     const allAnswersContainer = new Component('div', 'all-answers').node;
     if (this.wrongAnswers.length > 0) {
       const wrongAnswersContainer = this.createWordsList(this.wrongAnswers, 'wrong', 'Ошибок');

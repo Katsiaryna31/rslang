@@ -4,6 +4,7 @@ import { SprintPage } from "../pages/SprintPage/SprintPage";
 import Component from "./Component";
 import SprintPresenter from '../pages/SprintPage/SprintPresenter';
 import AudioCallPresenter from '../pages/AudioCallPage/AudioCallPresenter';
+import { LocalStorageKey } from '../settings';
 
 export function shuffle<T> (array:T[]):T[] {
     let result = array;
@@ -24,19 +25,19 @@ export function getRandomPage () {
 
 export function audioStart(){
     var song = new Audio();
-    song.src = __dirname +'sounds/art-quiz_assets_sound_raund.mp3';
+    song.src = 'sounds/art-quiz_assets_sound_raund.mp3';
     song.play();
 }
   
 export function audioTrue(){
     var song = new Audio();
-    song.src = __dirname +'sounds/incorrect.mp3';
+    song.src = 'sounds/incorrect.mp3';
     song.play();
 }
   
 export function audioFalse(){
     var song = new Audio();
-    song.src = __dirname +'sounds/correct.mp3';
+    song.src = 'sounds/correct.mp3';
     song.play();
 }
 
@@ -52,20 +53,20 @@ export function createPopUp(gameName: string, presenter: AudioCallPresenter|Spri
     buttonStop.addEventListener('click', async () => {
         const root = document.querySelector('#root') as HTMLElement;
         root.innerHTML = '';
-        await presenter.sendStatistics(statistics);
+        if (localStorage.getItem(LocalStorageKey.id)) {
+            await presenter.sendStatistics(statistics);
+        }
         if (gameName === 'sprint') {
             const game = new SprintPage();
             const pageElement = game.render();
             root.append(pageElement);
-            popupComponent.destroy();
-            popupOverlayComponent.destroy();
         } else if (gameName === 'audiocall') {
             const game = new AudioCallPage();
             const pageElement = game.render();
             root.append(pageElement);
-            popupComponent.destroy();
-            popupOverlayComponent.destroy();
         }
+        popupComponent.destroy();
+        popupOverlayComponent.destroy();
     });
     popup.append(buttonStop);
     const buttonContinue = new Component('button', 'popup-continue', 'Продолжить игру').node;
