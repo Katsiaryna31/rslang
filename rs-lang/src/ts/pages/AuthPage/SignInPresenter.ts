@@ -14,7 +14,7 @@ export default class SignInPresenter {
       this.view.enableButton();
     } else {
       this.model.saveUserToLocalStorage(data);
-      window.location.replace(`${window.location.origin}/`);
+      window.location.replace(`${window.location.origin}${window.location.pathname}`);
     }
   }
 }

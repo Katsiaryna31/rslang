@@ -22,6 +22,7 @@ export default class WordElemHard extends WordElem{
     deleteWordBtn.onclick = () => {
       this.node.remove();
       this.presenter.wordDifficultyUpdate(deleteWordBtn, data._id, 'normal');
+      this.presenter.onHardWordRemove();
     }
   }
 }

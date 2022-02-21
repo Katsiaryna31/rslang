@@ -1,7 +1,7 @@
 import { Statistics, Words } from "../../common/wordInterfaces";
 import { BASE_LINK, LocalStorageKey } from "../../settings";
 import { today } from "../StatisticsPage/wordStats";
-import TextBookModel from "../TextBook/TextBookModel";
+import TextBookModel, { Res, UserWord, WordData } from "../TextBook/TextBookModel";
 
 const userId = localStorage.getItem(LocalStorageKey.id) || '';
 const token = localStorage.getItem(LocalStorageKey.token) || '';
@@ -26,6 +26,35 @@ export default class AudioCallModel {
           });
         this.data = await response.json();
     }
+    return this;
+  }
+
+  async getUserWords(level: string, page:string) {
+   let pageNum = +page;
+
+    
+    let wordsArr: WordData[] = [];
+    while (wordsArr.length < 10 && pageNum >= 0) {
+      const params = new URLSearchParams({
+        page: '0',
+        wordsPerPage: '20',
+        filter: `{"$and":[{"page":${pageNum}}, {"group":${level}}]}`,
+      }).toString();
+  
+      const response = await fetch(`${BASE_LINK}/users/${userId}/aggregatedWords?${params}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+        }
+      });
+
+      const content: Res[] = await response.json();
+      const words: WordData[] = content[0]['paginatedResults'].filter((word) => word.userWord?.difficulty !== 'learned');
+      wordsArr = [...wordsArr, ...words];
+      pageNum -= 1
+    }
+    this.data = wordsArr.slice(0, 10);
     return this;
   }
 
