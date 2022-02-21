@@ -1,9 +1,11 @@
 import { getRandomPage } from "../../common/utils";
-import { Words } from "../../common/wordInterfaces";
-import { BASE_LINK } from "../../settings";
+import { Statistics, Words } from "../../common/wordInterfaces";
+import { BASE_LINK, LocalStorageKey } from "../../settings";
+import { today } from "../StatisticsPage/wordStats";
 import TextBookModel from "../TextBook/TextBookModel";
 
-
+const userId = localStorage.getItem(LocalStorageKey.id) || '';
+const token = localStorage.getItem(LocalStorageKey.token) || '';
 export default class SprintModel {
     
     array: Words = [];
@@ -42,13 +44,13 @@ export default class SprintModel {
     }
 
   playAudio(numberWordsEng: number){
-    const audio = new Audio(`https://rsschool-learnwords.herokuapp.com/${this.arrayPron[numberWordsEng]}`);
+    const audio = new Audio(`https://rsschool-learnwords.herokuapp.com/${this.arrayPron[numberWordsEng -1]}`);
     audio.play();
   }
 
   async getHardWords() {
     let data = await TextBookModel.getHardWords();
-    if (data.length < 30) {
+    if (data.length < 40) {
       let response = await fetch(`${BASE_LINK}/words?group=5&page=29`, {
           method: 'GET',
       });
@@ -65,5 +67,66 @@ export default class SprintModel {
         this.arrayId.push(a._id)
       }
     });
+  }
+
+  async getUserStatistics() {
+    let response = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    });
+    if (response.ok) {
+      const content:Statistics = await response.json();
+      return content;
+    }
+    return null
+  }
+
+  async updateUserStatistics(statistics: Statistics) {
+    let currentData = await this.getUserStatistics();
+    if (!currentData || currentData.optional.firstTimeInGame !== today()) {
+      const rawResponse = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(statistics)
+      });
+      const content = await rawResponse.json();
+    } else {
+      if (statistics.optional.sprint && currentData.optional.sprint) {
+        const updatedData: Statistics = {
+          learnedWords: currentData.learnedWords + statistics.learnedWords,
+          optional: {
+            firstTimeInGame: statistics.optional.firstTimeInGame,
+            audiocall: {
+              rightAnswers: currentData.optional.audiocall.rightAnswers,
+              wrongAnswers: currentData.optional.audiocall.wrongAnswers,
+              rightSeries: currentData.optional.audiocall.rightSeries,
+            },
+            sprint: {
+              rightAnswers: currentData.optional.sprint.rightAnswers + statistics.optional.sprint.rightAnswers,
+              wrongAnswers: currentData.optional.sprint.wrongAnswers + statistics.optional.sprint.wrongAnswers,
+              rightSeries: (currentData.optional.sprint.rightSeries > statistics.optional.sprint.rightSeries)? currentData.optional.sprint.rightSeries : statistics.optional.sprint.rightSeries,
+            }
+          }
+        }
+        const rawResponse = await fetch(`${BASE_LINK}/users/${userId}/statistics`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedData)
+        });
+        const content = await rawResponse.json();
+      }
+    };
   }
 }

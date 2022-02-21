@@ -1,12 +1,11 @@
 import Component from "../../common/Component";
 import { audioFalse, audioTrue, createPopUp, getRandom } from "../../common/utils";
-import { Word } from "../../common/wordInterfaces";
+import { Statistics, Word } from "../../common/wordInterfaces";
+import { today } from "../StatisticsPage/wordStats";
 import SprintPresenter from "./SprintPresenter";
 
 export default class SprintView {
   private presenter: SprintPresenter = new SprintPresenter(this);
-  rightAnswers: Word[] = [];
-  wrongAnswers: Word[] = [];
   numberWordsEng:number = 0;
   numberWordsRus:number = 0;
   arrayEng: string[] = []; 
@@ -15,6 +14,8 @@ export default class SprintView {
   arrBooleanAnswer:string[] = [];
   sum:number = 1;
   count:number = 0;
+  rightAnswerSeries:number = 0;
+  longestSeries: number = 0;
  
   gameContainer = <HTMLDivElement>document.querySelector('.sprint');
   leftBut = <HTMLButtonElement>document.getElementById('btn-left');
@@ -23,11 +24,13 @@ export default class SprintView {
   soundImage = <HTMLImageElement>document.getElementById('sound-image');
 
   constructor () {
-
+    
   }
 
   async startQuiz(level: string, page: string) {
     await this.presenter.createQuiz(level, page);
+    this.renderToyBlock();
+    this.renderCircleBlock();
   }
 
   renderSprint = (arrayEng: string[], arrayRus: string[]) => {
@@ -36,7 +39,7 @@ export default class SprintView {
     const pageWrapper = <HTMLDivElement>document.querySelector('.sprint-wrapper');
     const closePageButton = new Component('button', 'close-sprint', '×').node;
     closePageButton.addEventListener('click', () => {
-      createPopUp('sprint');
+      createPopUp('sprint', this.presenter, this.prepareStatistics());
     })
     pageWrapper.append(closePageButton);
     const html =`
@@ -64,11 +67,39 @@ export default class SprintView {
     leftButton.addEventListener('click', () => {
       this.nextQuestionFalse();
     });
+
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code == 'ArrowLeft') {
+        this.nextQuestionFalse();
+        leftButton.style.backgroundColor = "#c2c2c2ee";
+      }
+    });
+    document.addEventListener('keyup', (event) => {
+      if (event.code == 'ArrowLeft') {
+        leftButton.style.backgroundColor = "transparent";
+      }
+    });
+
+    
     buttonsGroup.append(leftButton);
     const rightButton = new Component('button', 'btn-answer btn-right', 'Верно').node;
     rightButton.addEventListener('click', () => {
       this.nextQuestionTrue();
     });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code == 'ArrowRight') {
+        this.nextQuestionTrue()
+        rightButton.style.backgroundColor = "#c2c2c2ee";
+      }
+    });
+    document.addEventListener('keyup', (event) => {
+      if (event.code == 'ArrowRight') {
+        rightButton.style.backgroundColor = "transparent";
+      }
+    });
+
     buttonsGroup.append(rightButton);
     this.gameContainer.append(buttonsGroup);
     this.renderMainWords(this.numberWordsEng, this.numberWordsRus);
@@ -80,18 +111,20 @@ renderMainWords = (numberWordsEng: number, numberWordsRus:number) => {
   src="./images/sound.svg" alt="sound" />
      <h5 class="card-title">${this.arrayEng[numberWordsEng]}</h5>
      <p class="card-text">${this.arrayRus[numberWordsRus]}</p>`;
-     setTimeout(() => {
-      this.presenter.playSound(this.numberWordsEng);
-    }, 1000);
  }
 
 nextQuestionTrue = () =>  {
   if(this.numberWordsEng === this.numberWordsRus){
+      this.rightAnswerSeries++;
       this.presenter.onWordWin(this.numberWordsEng);
       this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng]);
       this.arrBooleanAnswer.push('true');
       audioTrue();
   } else {
+    if (this.rightAnswerSeries > this.longestSeries) {
+      this.longestSeries = this.rightAnswerSeries;
+    }
+    this.rightAnswerSeries = 0;
       this.presenter.onWordFail(this.numberWordsEng);
       this.arrTrueAnswer = [];
       this.arrBooleanAnswer.push('false');
@@ -121,11 +154,16 @@ nextQuestionTrue = () =>  {
 
 nextQuestionFalse = () => {
   if (this.numberWordsEng !== this.numberWordsRus) {
+    this.rightAnswerSeries++;
     this.presenter.onWordWin(this.numberWordsEng);
     this.arrTrueAnswer.push(this.arrayEng[this.numberWordsEng])
     this.arrBooleanAnswer.push('true');
       audioTrue();
   } else {
+    if (this.rightAnswerSeries > this.longestSeries) {
+      this.longestSeries = this.rightAnswerSeries;
+    }
+    this.rightAnswerSeries = 0;
     this.presenter.onWordFail(this.numberWordsEng);
     this.arrTrueAnswer = [];
     this.arrBooleanAnswer.push('false');
@@ -150,6 +188,14 @@ nextQuestionFalse = () => {
   } 
 
   this.renderMainWords(this.numberWordsEng, this.numberWordsRus);
+}
+
+playAudio = () =>{
+  let audioBut = document.getElementById('sound-image') as HTMLImageElement;
+  audioBut.addEventListener('click', ()=> {
+    this.presenter.playSound(this.numberWordsEng + 1);;
+  })
+
 }
 
 sumResult = () => {
@@ -204,8 +250,6 @@ renderCircleBlock = () => {
       }
       if(this.arrTrueAnswer.length >= 3 && this.arrTrueAnswer.length < 6){
         addPoint = "+10";
-  /*        document.body.card.innerPoint.style.backgroundColor = "red";
-   */      /* innerPoint.style.backgroundColor = "red"; */
       }
       if(this.arrTrueAnswer.length >= 6 && this.arrTrueAnswer.length < 9){
         addPoint = "+25";
@@ -284,7 +328,33 @@ renderCircleBlock = () => {
     `
 }
 
+prepareStatistics = () => {
+  if (this.rightAnswerSeries > this.longestSeries) {
+    this.longestSeries = this.rightAnswerSeries;
+  }
+  const rightAnswers = this.arrBooleanAnswer.filter(el => el === 'true').length;
+  const wrongAnswers = this.arrBooleanAnswer.filter(el => el === 'false').length;
+  const statistics: Statistics = {
+    learnedWords: rightAnswers,
+    optional: {
+      firstTimeInGame: today(),
+      sprint: {
+        rightAnswers: rightAnswers,
+        wrongAnswers: wrongAnswers,
+        rightSeries: this.longestSeries,
+      },
+      audiocall: {
+        rightAnswers: 0,
+        wrongAnswers: 0,
+        rightSeries: 0,
+      }
+    }
+  }
+  return statistics;
+}
+
 renderResultsPage = (arrayTranscription:string[]) =>{
+  this.presenter.sendStatistics(this.prepareStatistics());
   const html =`
   <div class="card">
   <h6 class="card-title">Ваш результат ${this.count}</h6>

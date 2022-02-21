@@ -24,7 +24,10 @@ export class SprintPage extends Page {
       const card = new Component('div', 'card', '').node;
       gameContainer.append(card);
       const gameTitle = new Component('h5', 'game-header', 'Спринт').node;
+      const descriptionSprint = new Component('div', 'sprint-description', 'Тренирует навык быстрого перевода с английского языка на русский. Вам нужно выбрать соответствует ли перевод предложенному слову').node;
       card.append(gameTitle);
+      card.append(descriptionSprint);
+
 
       const startButton = new Component('button', 'audiocall-start', 'Начать').node;
       startButton.addEventListener('click', async () => {
