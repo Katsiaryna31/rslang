@@ -378,7 +378,7 @@ renderResultsPage = (arrayTranscription:string[]) =>{
 
    for(let i = 1; i <= this.numberWordsEng; i++){
     const resultItem = new Component('li', 'sprint-results-item', ).node;
-    const audioImage = `<img src="../../images/sound.svg" alt="sound" class="results-img" data-number="${i-1}" id='sound-image${i-1}'>`;
+    const audioImage = `<img src="images/sound.svg" alt="sound" class="results-img" data-number="${i-1}" id='sound-image${i-1}'>`;
     const audioButton = new Component('button', 'sprint-results-button').node;
     audioButton.innerHTML =  audioImage;
     audioButton.addEventListener('click', ()=> {

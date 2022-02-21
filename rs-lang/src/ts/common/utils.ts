@@ -25,19 +25,19 @@ export function getRandomPage () {
 
 export function audioStart(){
     var song = new Audio();
-    song.src = __dirname +'sounds/art-quiz_assets_sound_raund.mp3';
+    song.src = 'sounds/art-quiz_assets_sound_raund.mp3';
     song.play();
 }
   
 export function audioTrue(){
     var song = new Audio();
-    song.src = __dirname +'sounds/incorrect.mp3';
+    song.src = 'sounds/incorrect.mp3';
     song.play();
 }
   
 export function audioFalse(){
     var song = new Audio();
-    song.src = __dirname +'sounds/correct.mp3';
+    song.src = 'sounds/correct.mp3';
     song.play();
 }
 
