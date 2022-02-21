@@ -1,0 +1,135 @@
+.home-page {
+
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: calc(100vh - 150px);
+  }
+
+  padding: 20px 30px;
+  width: 100%;
+
+  @media screen and (max-width: 540px) {
+    padding: 20px 10px;
+  }
+
+  &__header {
+    font-family: $font2;
+    max-width: 600px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 55px;
+    color: $color5;
+
+    @media screen and (max-width: 970px) {
+      font-size: 40px;
+      max-width: 400px;
+    }
+    @media screen and (max-width: 540px) {
+      padding: 10px;
+      color: #fff;
+      background-color: $color5;
+      font-size: 28px;
+      max-width: 210px;
+      margin-top: 116px
+    }
+  }
+
+  &__string {
+    margin: 20px 0 100px;
+    max-width: 500px;
+    color: #fff;
+    font-weight: 400;
+    font-size: 18px;
+
+    @media screen and (max-width: 970px) {
+      max-width: 400px;
+      padding: 10px;
+    }
+
+    @media screen and (max-width: 700px) {
+      max-width: 300px;
+    }
+
+    @media screen and (max-width: 540px) {
+      text-align: center;
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+
+  }
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0 10px;
+  gap: 35px;
+}
+.feature {
+  width: 370px;
+  padding: 35px;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: -14px -14px 0 0 #263366;
+
+  @media screen and (max-width: 970px) {
+    width: 300px;
+  }
+  @media screen and (max-width: 740px) {
+    width: 390px;
+  }
+  &:nth-child(2) {
+    box-shadow: -14px -14px 0 0 #d86060;
+  }
+  &:nth-child(3) {
+    box-shadow: -14px -14px 0 0 #62a3a7;
+  }
+
+  &__img {
+    height: 40px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    &_book {
+      background-image: url(./images/book.svg);
+    }
+    &_stats {
+      background-image: url(./images/statistics.svg);
+    }
+    &_game {
+      background-image: url(./images/gamepad.svg);
+    }
+  }
+
+  &__header {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-family: $font2;
+    font-weight: 500;
+    font-size: 32px;
+
+    @media screen and (max-width: 740px) {
+      font-size: 26px;
+    }
+
+    &_book {
+      color: #263366;
+    }
+    &_stats {
+      color: #62a3a7;
+    }
+    &_game {
+      color: #d86060;
+    }
+  }
+
+  &__description {
+    font-weight: 400;
+    font-size: 17px;
+    color: $colorDark;
+  }
+}

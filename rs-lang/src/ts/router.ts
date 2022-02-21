@@ -41,6 +41,12 @@ const findComponent = (path: string, routesList: Route[]) => routesList.find((r)
 const router = () => {
   const path = parseLocation();
   const { component } = findComponent(path.resource, routes) || routes[0];
+  const footer = document.querySelector('.footer') as HTMLElement;
+  if (path.resource === 'audiocall' || path.resource === 'sprint') {
+    footer.style.display = 'none';
+  } else {
+    footer.style.display = '';
+  }
   const pageElement = component.render();
   root.innerHTML = '';
   root.append(pageElement);
