@@ -7,6 +7,10 @@
     align-items: center;
     padding-top: 20px;
     min-height: 90px;
+
+    @media screen and (max-width: 540px) {
+      min-height: 70px;
+    }
   }
 
   &__logo {
@@ -26,6 +30,10 @@
     font-family: $font2;
     font-size: 36px;
     transition: all 0.3s ease-in-out;
+
+    @media screen and (max-width: 540px) {
+      font-size: 25px;
+    }
 
     &:hover {
       color: $color5;
@@ -48,6 +56,12 @@
   &:hover {
     background-color: rgba(162, 184, 194, 0);
   }
+
+  @media screen and (max-width: 540px) {
+    width: 37px;
+    height: 37px;
+    margin-right: 12px;
+  }
 }
 
 .sign-out {
@@ -67,6 +81,10 @@
   &:hover {
     background-color: rgba(162, 184, 194, 0.5);
   }
+
+  @media screen and (max-width: 540px) {
+    margin-right: 0px;
+  }
 }
 
 .user-name {
@@ -77,6 +95,12 @@
   font-weight: 600;
   font-family: $font2;
   cursor: default;
+  overflow: hidden;
+
+  @media screen and (max-width: 540px) {
+    font-size: 18px;
+    margin-right: 1px;
+  }
 }
 
 .burger {
@@ -95,4 +119,9 @@
     background-color: rgba(162, 184, 194, 0);
   }
   cursor: pointer;
+
+  @media screen and (max-width: 540px) {
+    width: 37px;
+    height: 37px;
+  }
 }

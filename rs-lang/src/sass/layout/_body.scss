@@ -5,10 +5,24 @@
   min-width: 350px;
   background-color: $color1;
   font-family: $font3;
-  transition: all 0.5s ease-in-out;
+  transition: background-color 0.5s ease-in-out;
 
+  
   &.overflow-hidden {
     overflow: hidden;
+  }
+  
+  &_home {
+    background-image: url(./images/new_bridge.png);
+    background-size: 750px;
+    background-position: calc(50% + 340px) 70px;
+    background-repeat: no-repeat;
+
+    @media screen and (max-width: 540px) {
+      background-size: 350px;
+      background-position: calc(50% + 110px) 79px;
+    }
+    
   }
 
   &_level1 {
@@ -45,5 +59,9 @@
 
   @media screen and (max-width: 700px) {
     padding: 0 15px;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding: 0 10px;
   }
 }

@@ -1,11 +1,10 @@
 .team-page-title {
-  display: block;
-  position: relative;
-  padding: 20px;
-  color: #263366;
-  font-weight: 900;
-  letter-spacing: 0.15em;
-  font-size: 28px;
+  margin: 0 0 15px 0px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.2em;
+  color: $color5;
 }
 .team-page {
   width: 100%;
@@ -30,11 +29,10 @@
   align-items: center;
   width: 28%;
   height: 500px;
-  border: #263366 2px solid;
   padding: 15px;
   margin: 27px;
-  box-shadow: 0px 0px 15px 4px #144d98;
-  border-radius: 5px;
+  box-shadow: 0px 0px 15px 2px #445d7c;
+  border-radius: 3px;
 }
 
 @media screen and (max-width: 1100px) {
@@ -62,8 +60,6 @@
   text-decoration: underline;
 }
 .image-page-link {
-  /*   width: 120px;
- */
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
@@ -73,10 +69,13 @@
 }
 .name-team-page {
   margin-bottom: 10px;
-  font-size: 20px;
+  font-family: $font2;
+  color: $color2;
+  font-size: 22px;
   font-weight: 600;
 }
 .fill-team-page {
+  color: rgb(27, 26, 25);
   font-size: 18px;
   margin-top: 15px;
   white-space: pre-line;
