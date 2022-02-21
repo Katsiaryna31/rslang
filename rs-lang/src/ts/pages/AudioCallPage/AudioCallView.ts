@@ -1,6 +1,7 @@
 import Component from "../../common/Component";
 import { createPopUp, shuffle } from "../../common/utils";
 import { Statistics, Word, Words } from "../../common/wordInterfaces";
+import { LocalStorageKey } from "../../settings";
 import { today } from "../StatisticsPage/wordStats";
 import AudioCallPresenter from './AudioCallPresenter';
 import LevelChoice from "./LevelChoice";
@@ -69,7 +70,10 @@ export default class AudioCallView {
           this.rightAnswers.push(answer);
           this.onSelectAnswer('right');
           this.showAnswer(rightAnswer);
-          this.presenter.onWordWin(rightAnswer.id || rightAnswer._id);
+          if (localStorage.getItem(LocalStorageKey.id)) {
+            this.presenter.onWordWin(rightAnswer.id || rightAnswer._id);
+          }
+          
         } else {
           if (this.rightAnswerSeries > this.longestSeries) {
             this.longestSeries = this.rightAnswerSeries;
@@ -79,7 +83,10 @@ export default class AudioCallView {
           answerEl.style.textDecoration = 'line-through';
           this.onSelectAnswer('wrong');
           this.showAnswer(rightAnswer);
-          this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+          if (localStorage.getItem(LocalStorageKey.id)) {
+            this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+          }
+          
         }
       })
     });
@@ -91,7 +98,9 @@ export default class AudioCallView {
       this.rightAnswerSeries = 0;
       this.onSelectAnswer('wrong');
       this.showAnswer(rightAnswer);
-      this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+      if (localStorage.getItem(LocalStorageKey.id)) {
+        this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+      }
     });
     this.gameContainer.append(questionContainer);
     this.gameContainer.append(answersContainer);
@@ -220,7 +229,9 @@ export default class AudioCallView {
   }
 
   showResult() {
-    this.presenter.sendStatistics(this.prepareStatistics());
+    if (localStorage.getItem(LocalStorageKey.id)) {
+      this.presenter.sendStatistics(this.prepareStatistics());
+    }
     const allAnswersContainer = new Component('div', 'all-answers').node;
     if (this.wrongAnswers.length > 0) {
       const wrongAnswersContainer = this.createWordsList(this.wrongAnswers, 'wrong', 'Ошибок');

@@ -1,4 +1,4 @@
-export const BASE_LINK = 'https://react-learnwords-example.herokuapp.com';
+export const BASE_LINK = 'https://rsschool-learnwords.herokuapp.com';
 //export const BASE_LINK = 'http://localhost:3000';
 
 export enum LocalStorageKey {
