@@ -26,6 +26,7 @@ export class AudioCallPage extends Page {
       pageContainerElement.append(text);
       
       const startButton = new Component('button', 'audiocall-start', 'Начать').node;
+   
       startButton.addEventListener('click', async () => {
         pageContainer.destroy();
         if (this.currentLevel === 'any') {
@@ -35,9 +36,10 @@ export class AudioCallPage extends Page {
           let audioCallView = new AudioCallView();
           await audioCallView.startQuiz(this.currentLevel, this.currentPage);
         }
-      })
+      });
       pageContainerElement.append(startButton);
-      page.append(pageContainerElement)
+      page.append(pageContainerElement);
+
       return pageWrapper;
     }  
   }
