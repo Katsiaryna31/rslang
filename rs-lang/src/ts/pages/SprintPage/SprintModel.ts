@@ -44,7 +44,7 @@ export default class SprintModel {
     }
 
   playAudio(numberWordsEng: number){
-    const audio = new Audio(`https://rsschool-learnwords.herokuapp.com/${this.arrayPron[numberWordsEng]}`);
+    const audio = new Audio(`https://rsschool-learnwords.herokuapp.com/${this.arrayPron[numberWordsEng -1]}`);
     audio.play();
   }
 
