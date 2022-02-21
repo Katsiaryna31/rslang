@@ -3,8 +3,9 @@ import { createPopUp, shuffle } from "../../common/utils";
 import { Statistics, Word, Words } from "../../common/wordInterfaces";
 import { today } from "../StatisticsPage/wordStats";
 import AudioCallPresenter from './AudioCallPresenter';
+import LevelChoice from "./LevelChoice";
 
-
+const answersNumbers = ['1', '2', '3', '4', '5'];
 export default class AudioCallView {
   private presenter: AudioCallPresenter = new AudioCallPresenter(this);
   rightAnswers: Word[] = [];
@@ -13,6 +14,8 @@ export default class AudioCallView {
   longestSeries: number = 0;
   question: Word | undefined;
   answers: Word[] = [];
+  level: string = '';
+  page: string = '';
  
   gameContainer = <HTMLDivElement>document.querySelector('.audiocall');
   constructor () {
@@ -20,6 +23,8 @@ export default class AudioCallView {
   }
 
   async startQuiz(level: string, page: string) {
+    this.level = level;
+    this.page = page;
     this.addKeyEvents();
     await this.presenter.createQuiz(level, page);
   }
@@ -99,16 +104,24 @@ export default class AudioCallView {
       const answersDOM:NodeListOf<HTMLElement> = document.querySelectorAll('.answer-container');
       const rightAnswerDOM = document.querySelector('.right-answer');
       const rightAnswerNumber = rightAnswerDOM?.innerHTML.split('.')[0];
+      const resultButton = <HTMLButtonElement>document.querySelector('.result-button.next');
       if (this.question !== undefined) {
-      if (e.key === rightAnswerNumber) {
+      if (e.key === rightAnswerNumber && !resultButton) {
           this.rightAnswerSeries++;
           this.rightAnswers.push(this.question);
           this.onSelectAnswer('right');
           this.showAnswer(this.question);
           this.presenter.onWordWin(this.question.id || this.question._id);
-      } else if (e.key === 'Enter') {
-        const resultButton = <HTMLButtonElement>document.querySelector('.result-button.next');
-        console.log(resultButton);
+      } else if (e.key !== rightAnswerNumber && answersNumbers.includes(e.key) && !resultButton) {
+        this.rightAnswerSeries = 0;
+        const orderNum = Number(e.key) - 1;
+        this.wrongAnswers.push(this.answers[orderNum]);
+        answersDOM[orderNum].style.textDecoration = 'line-through';
+        this.onSelectAnswer('wrong');
+        this.showAnswer(this.question);
+        this.presenter.onWordFail(this.question.id || this.question._id);
+    }
+      if (e.key === 'Enter') {
         if (!resultButton) {
           if (this.rightAnswerSeries > this.longestSeries) {
             this.longestSeries = this.rightAnswerSeries;
@@ -123,23 +136,7 @@ export default class AudioCallView {
           }
           await this.presenter.createNextQuestion();
         }
-      } else {
-          this.rightAnswerSeries = 0;
-          answersDOM.forEach(el => {
-            if (e.key === el.innerHTML.split('.')[0]) {
-              let wrongAnswer = el.innerHTML.split('.')[1];
-              this.answers.forEach(answer => {
-                if (wrongAnswer.includes(answer.wordTranslate)) {
-                  this.wrongAnswers.push(answer);
-                  el.style.textDecoration = 'line-through';
-                }
-              })
-            }
-          })
-          this.onSelectAnswer('wrong');
-          this.showAnswer(this.question);
-          this.presenter.onWordFail(this.question.id || this.question._id);
-      }
+      } 
     }
     })
   }
