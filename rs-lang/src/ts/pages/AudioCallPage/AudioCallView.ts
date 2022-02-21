@@ -39,7 +39,7 @@ export default class AudioCallView {
     const questionContainer = <HTMLDivElement>document.querySelector('.question-container');
     const questionText = new Component('div', 'question-text-container').node;
     const soundButton = new Component('button', 'question-button').node;
-    const soundImage = new Component('img', 'question-image', '', {src: '../../images/sound.svg', width: '54', height: '54'}).node;
+    const soundImage = new Component('img', 'question-image', '', {src: '../images/sound.svg', width: '54', height: '54'}).node;
     soundButton.append(soundImage);
     const audio = new Audio(`https://rss-words-3.herokuapp.com/${question.audio}`);
     await audio.play();
@@ -174,7 +174,7 @@ export default class AudioCallView {
   }
 
   onSelectAnswer(statusAnswer: string) {
-    const audio = new Audio(`../../sounds/${statusAnswer}.mp3`);
+    const audio = new Audio(`../sounds/${statusAnswer}.mp3`);
     audio.play();
     const dontKnowButton = <HTMLButtonElement>document.querySelector('.result-button');
     dontKnowButton.remove();
@@ -200,7 +200,7 @@ export default class AudioCallView {
       answers.forEach(answer => {
         const wordItem = new Component('li', 'answer-item').node;
         const soundButton = new Component('button', 'answer-sound-button').node;
-        const soundImage = new Component('img', 'answer-sound-image', '', {src: '../../images/sound.svg', width: '30', height: '30'}).node;
+        const soundImage = new Component('img', 'answer-sound-image', '', {src: '../images/sound.svg', width: '30', height: '30'}).node;
         soundButton.append(soundImage);
         const audio = new Audio(`https://rsschool-learnwords.herokuapp.com/${answer.audio}`);
         soundButton.addEventListener('click', async () => {
