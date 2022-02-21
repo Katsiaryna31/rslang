@@ -70,7 +70,10 @@ export default class AudioCallView {
           this.rightAnswers.push(answer);
           this.onSelectAnswer('right');
           this.showAnswer(rightAnswer);
-          this.presenter.onWordWin(rightAnswer.id || rightAnswer._id);
+          if (localStorage.getItem(LocalStorageKey.id)) {
+            this.presenter.onWordWin(rightAnswer.id || rightAnswer._id);
+          }
+          
         } else {
           if (this.rightAnswerSeries > this.longestSeries) {
             this.longestSeries = this.rightAnswerSeries;
@@ -80,7 +83,10 @@ export default class AudioCallView {
           answerEl.style.textDecoration = 'line-through';
           this.onSelectAnswer('wrong');
           this.showAnswer(rightAnswer);
-          this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+          if (localStorage.getItem(LocalStorageKey.id)) {
+            this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+          }
+          
         }
       })
     });
@@ -92,7 +98,9 @@ export default class AudioCallView {
       this.rightAnswerSeries = 0;
       this.onSelectAnswer('wrong');
       this.showAnswer(rightAnswer);
-      this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+      if (localStorage.getItem(LocalStorageKey.id)) {
+        this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
+      }
     });
     this.gameContainer.append(questionContainer);
     this.gameContainer.append(answersContainer);
