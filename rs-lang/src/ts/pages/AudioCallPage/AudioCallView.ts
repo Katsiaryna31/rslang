@@ -243,4 +243,12 @@ export default class AudioCallView {
     }
     this.gameContainer.append(allAnswersContainer);
   }
+
+  finishGame() {
+    const container = new Component('div', 'finish-game', 'Недостаточное количество слов для игры').node;
+    const backBtn = new Component('div', 'finish-game__btn', 'Назад').node;
+    backBtn.onclick = () => history.back();  
+    container.append(backBtn); 
+    this.gameContainer.append(container);
+  }
 }

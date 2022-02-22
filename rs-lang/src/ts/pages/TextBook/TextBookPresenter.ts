@@ -8,6 +8,7 @@ export default class TextBookPresenter {
     private view: TextBookPage,
     private model = TextBookModel,
     private audio = new Audio(),
+    public hardWordsNum = 0,
   ) {
     this.view = view;
   }
@@ -26,7 +27,15 @@ export default class TextBookPresenter {
   async onHardWordsPageSelect() {
     const data = await this.model.getHardWords();
     this.view.gameSelect.disabled = data.length ? false : true; 
+    this.hardWordsNum = data.length;
     this.view.displayHardWords(data);
+  }
+
+  onHardWordRemove() {
+    this.hardWordsNum -= 1;
+    if (!this.hardWordsNum) {
+      this.view.gameSelect.disabled = true;
+    }
   }
 
   async wordDifficultyUpdate(btn: HTMLInputElement, wordId: string, newDifficultyValue: string) {

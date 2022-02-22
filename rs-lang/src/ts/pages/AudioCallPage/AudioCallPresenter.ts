@@ -3,6 +3,7 @@ import { Words } from "../../common/wordInterfaces";
 import { updateWordFails, updateWordWins } from "../StatisticsPage/wordStats";
 import AudioCallModel from "./AudioCallModel";
 import AudioCallView from "./AudioCallView";
+import { LocalStorageKey } from '../../settings';
 
 export default class AudioCallPresenter {
     private questionsPerLevel: number = 10;
@@ -18,10 +19,18 @@ export default class AudioCallPresenter {
     async createQuiz(level: string, page:string) {
       if (level === '6') {
         await this.model.getHardWords();
+      } else if (localStorage.getItem(LocalStorageKey.id)) {
+        await this.model.getUserWords(level, page);
+        
       } else {
         await this.model.getWords(level, page);
       }
-      await this.renderAnswers()
+
+      if (this.model.data.length < 10) {
+        this.view.finishGame();
+      } else {
+        this.renderAnswers();
+      }
     }
 
     async createNextQuestion() {
@@ -39,7 +48,7 @@ export default class AudioCallPresenter {
     async renderAnswers() {
       const answers = this.model.getAnswers();
       const rightAnswer = this.model.rightAnswers[this.model.rightAnswers.length -1];
-      await this.view.displayAnswers(answers, rightAnswer);
+      this.view.displayAnswers(answers, rightAnswer);
     }
 
     onWordWin(wordId: string) {
