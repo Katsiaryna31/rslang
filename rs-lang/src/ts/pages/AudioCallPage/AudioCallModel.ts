@@ -21,10 +21,14 @@ export default class AudioCallModel {
           });
         this.data = await response.json();
     } else {
+      if (localStorage.getItem(LocalStorageKey.id)) {
+        await this.getUserWords(level, page);
+      } else {
         let response = await fetch(`${BASE_LINK}/words?group=${this.level}&page=${page}`, {
             method: 'GET',
           });
         this.data = await response.json();
+      }
     }
     return this;
   }

@@ -19,9 +19,6 @@ export default class AudioCallPresenter {
     async createQuiz(level: string, page:string) {
       if (level === '6') {
         await this.model.getHardWords();
-      } else if (localStorage.getItem(LocalStorageKey.id)) {
-        await this.model.getUserWords(level, page);
-        
       } else {
         await this.model.getWords(level, page);
       }
