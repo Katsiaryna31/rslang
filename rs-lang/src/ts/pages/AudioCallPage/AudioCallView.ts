@@ -64,7 +64,8 @@ export default class AudioCallView {
         answerEl.classList.add('right-answer');
       }
       answersContainer.append(answerEl);
-      answerEl.addEventListener('click', () => {
+      const showAnswer = () => {
+        answerEl.removeEventListener('click', showAnswer);
         if (answerId === rightAnswerId) {
           this.rightAnswerSeries++;
           this.rightAnswers.push(answer);
@@ -86,15 +87,16 @@ export default class AudioCallView {
           if (localStorage.getItem(LocalStorageKey.id)) {
             this.presenter.onWordFail(rightAnswer.id || rightAnswer._id);
           }
-          
         }
-      })
+      }
+      answerEl.addEventListener('click', showAnswer);
     });
     const dontKnowButton = new Component('button', 'result-button', `Не знаю`).node;
     dontKnowButton.addEventListener('click' , () => {
       if (this.rightAnswerSeries > this.longestSeries) {
         this.longestSeries = this.rightAnswerSeries;
       }
+      this.wrongAnswers.push(rightAnswer);
       this.rightAnswerSeries = 0;
       this.onSelectAnswer('wrong');
       this.showAnswer(rightAnswer);
@@ -135,6 +137,7 @@ export default class AudioCallView {
           if (this.rightAnswerSeries > this.longestSeries) {
             this.longestSeries = this.rightAnswerSeries;
           }
+          this.wrongAnswers.push(this.question);
           this.rightAnswerSeries = 0;
           this.onSelectAnswer('wrong');
           this.showAnswer(this.question);
@@ -146,6 +149,9 @@ export default class AudioCallView {
           await this.presenter.createNextQuestion();
         }
       } 
+      if (e.key === 'Escape') {
+        createPopUp('audiocall', this.presenter, this.prepareStatistics());
+      }
     }
     })
   }

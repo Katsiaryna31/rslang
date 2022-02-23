@@ -41,7 +41,13 @@ export default class SprintView {
     const closePageButton = new Component('button', 'close-sprint', '×').node;
     closePageButton.addEventListener('click', () => {
       createPopUp('sprint', this.presenter, this.prepareStatistics());
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        createPopUp('audiocall', this.presenter, this.prepareStatistics());
+      }
     })
+
     pageWrapper.append(closePageButton);
     const html =`
     <div class="card">
@@ -112,6 +118,7 @@ renderMainWords = (numberWordsEng: number, numberWordsRus:number) => {
   src="./images/sound.svg" alt="sound" />
      <h5 class="card-title">${this.arrayEng[numberWordsEng]}</h5>
      <p class="card-text">${this.arrayRus[numberWordsRus]}</p>`;
+     this.playAudio();
  }
 
 nextQuestionTrue = () =>  {
@@ -127,7 +134,7 @@ nextQuestionTrue = () =>  {
     if (this.rightAnswerSeries > this.longestSeries) {
       this.longestSeries = this.rightAnswerSeries;
     }
-    this.rightAnswerSeries = 0;
+    this.rightAnswerSeries = 0; 
     if (localStorage.getItem(LocalStorageKey.id)) {
       this.presenter.onWordFail(this.numberWordsEng);
     }
@@ -365,8 +372,7 @@ prepareStatistics = () => {
 renderResultsPage = (arrayTranscription:string[]) =>{
   if (localStorage.getItem(LocalStorageKey.id)) {
     this.presenter.sendStatistics(this.prepareStatistics());
-  }
-  const html =`
+  }  const html =`
   <div class="card">
   <h6 class="card-title">Ваш результат ${this.count}</h6>
 
