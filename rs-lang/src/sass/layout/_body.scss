@@ -1,0 +1,67 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 350px;
+  background-color: $color1;
+  font-family: $font3;
+  transition: background-color 0.5s ease-in-out;
+
+  
+  &.overflow-hidden {
+    overflow: hidden;
+  }
+  
+  &_home {
+    background-image: url(./images/new_bridge.png);
+    background-size: 750px;
+    background-position: calc(50% + 340px) 70px;
+    background-repeat: no-repeat;
+
+    @media screen and (max-width: 540px) {
+      background-size: 350px;
+      background-position: calc(50% + 110px) 79px;
+    }
+    
+  }
+
+  &_level1 {
+    background-color: #366f8d;
+  }
+
+  &_level3 {
+    background-color: $color3;
+  }
+
+  &_level4 {
+    background-color: $color4;
+  }
+
+  &_level5 {
+    background-color: $color1;
+  }
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.wrapper {
+  max-width: 1440px;
+  min-height: 100%;
+  padding: 0 50px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  @media screen and (max-width: 880px) {
+    padding: 0 25px;
+  }
+
+  @media screen and (max-width: 700px) {
+    padding: 0 15px;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding: 0 10px;
+  }
+}

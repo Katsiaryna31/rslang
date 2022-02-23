@@ -1,0 +1,58 @@
+.footer {
+
+  &__container {
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 50px;
+    color: $color2;
+    font-size: 15px;
+    font-family: $font2;
+    border-top: 1px solid $color2;
+
+    @media screen and (max-width: 800px) {
+      padding: 0;
+    }
+  }
+
+  .school-logo {
+    display: block;
+    background-image: url(./images/rs-logo.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 30px;
+    width: 70px;
+  }
+
+  .github-link {
+    flex-grow: 1;
+    text-align: right;
+    padding-right: 30px;
+
+    @media screen and (max-width: 800px) {
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+      margin: 5px;
+      padding-right: 15px;
+    }
+  }
+
+  &__year {
+    cursor: default;
+  }
+
+  &__link {
+    transition: all 0.3s ease-in-out;
+
+    &:not(:first-child) {
+      margin-left: 20px;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+}

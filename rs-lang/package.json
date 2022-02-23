@@ -1,0 +1,16 @@
+{
+  "version": "0.1.0",
+  "description": "My new js application",
+  "private": true,
+  "name": "rs-lang",
+  "scripts": {
+    "start": "rss-scripts start -ts",
+    "build": "rss-scripts build -ts"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
+    "rss-scripts": "^0.2.4",
+    "typescript": "^4.5.5"
+  }
+}

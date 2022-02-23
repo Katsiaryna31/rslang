@@ -1,0 +1,31 @@
+.finish-game {
+  width: 330px;
+  height: 260px;
+  padding: 25px;
+  margin: 15vh auto 10px;
+  color: #fff;
+  text-align: center;
+  font-family: $font2;
+  font-size: 25px;
+  font-weight: 500;
+  background-color: $color2;
+
+  &__btn {
+    width: 190px;
+    background: transparent;
+    cursor: pointer;
+    display: block;
+    margin: 34px auto 0;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    padding: 10px 20px;
+    font-family: $font3;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: $color2;
+      border-color: $color2;
+      background-color: #fff;
+    }
+  }
+}

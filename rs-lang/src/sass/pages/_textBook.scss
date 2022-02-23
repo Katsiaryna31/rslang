@@ -1,0 +1,323 @@
+.textbook {
+
+  --group-color: #fff;
+
+  &__header {
+    margin: 0 0 15px 0px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.2em;
+    color: $color5;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 20px 0;
+  }
+
+  &__words {
+    width: 100%;
+    margin: 20px auto;
+    padding: 0 30px;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 35px 20px;
+
+    @media screen and (max-width: 1200px) {
+      grid-template-columns: 400px 400px;
+    }
+
+    @media screen and (max-width: 970px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media screen and (max-width: 740px) {
+      grid-template-columns: 320px;
+    }
+  }
+
+  &__full-page {
+    flex-grow: 1;
+    text-align: center;
+    color: $color5;
+    font-weight: 600;
+    font-size: 30px;
+    letter-spacing: 0.03em;
+    visibility: hidden;
+    opacity: 0;
+
+    &.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    @media screen and (max-width: 980px) {
+      order: 1;
+    }
+  }
+
+  .word {
+    position: relative;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+
+    &.dark {
+      filter: grayscale(0.4) brightness(0.85);
+    }
+    @media screen and (max-width: 740px) {
+      font-size: 14px;
+    }
+
+    &__header {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 230px;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: flex-start;
+
+      @media screen and (max-width: 740px) {
+        height: 170px;
+      }
+    }
+
+    &__audio {
+      display: block;
+      margin-left: 19px;
+      cursor: pointer;
+
+      &:hover {
+        filter: brightness(110%);
+      }
+    }
+
+    &__word-string {
+      font-family: $font2;
+      background-color: var(--group-color);
+      padding: 5px 15px;
+      margin: 10px;
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    &__top-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 20px 10px 15px 20px;
+    }
+
+    &__word-translate {
+      background-color: #fff;
+      font-size: 20px;
+      font-weight: 400;
+      white-space: pre-wrap;
+    }
+
+    .text {
+      margin: 10px 20px 40px;
+
+      p {
+        margin-bottom: 5px;
+      }
+
+      &_auth {
+        margin: 10px 20px 55px;
+      }
+    }
+
+    &__text-example {
+      font-style: italic;
+    }
+
+    &__text-meaning-transl {
+      margin-top: 15px;
+      color: $colorDark;
+    }
+
+    &__text-example-transl{
+      color: $colorDark;
+      font-style: italic;
+    }
+
+    &__stat {
+      position: absolute;
+      left: 17px;
+      font-size: 14px;
+      cursor: default;
+
+
+      &_wins {
+        color: green;
+        bottom: 22px;
+      }
+
+      &_fails {
+        color: $color5;
+        bottom: 8px;
+      }
+    }
+
+    &__btn {
+      all: unset;
+      position: absolute;
+      bottom: 12px;
+      right: 10px;
+      cursor: pointer;
+
+      &_hard {
+        &.active {
+          filter: brightness(0) saturate(100%) invert(83%) sepia(53%) saturate(6867%) hue-rotate(320deg) brightness(88%) contrast(92%);
+
+          &:hover {
+            filter: brightness(0) saturate(100%) invert(83%) sepia(53%) saturate(6867%) hue-rotate(320deg) brightness(100%) contrast(92%);
+          }
+        }
+      }
+
+      &_learned {
+        &.active {
+          filter: brightness(0) saturate(100%) invert(46%) sepia(63%) saturate(311%) hue-rotate(98deg) brightness(89%) contrast(95%);
+          
+          &:hover {
+            filter:  brightness(0) saturate(100%) invert(46%) sepia(63%) saturate(311%) hue-rotate(98deg) brightness(100%) contrast(95%);
+          }
+        }
+      }
+
+      &:hover {
+        filter: brightness(110%);
+      }
+
+      &_learned {
+        right: 55px;
+      }
+
+      &.active {
+        color: green;
+      }
+    }
+  }
+
+}
+
+.location-select {
+  position: relative;
+
+  &__list {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    z-index: 100;
+    max-height: 65vh;
+    overflow: auto;
+    opacity: 0;
+    visibility: hidden;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgb(151, 150, 150);
+
+    &_group {
+
+      .location-select__item {
+        --decor-color: #fff;
+        position: relative;
+        color: var(--decor-color);
+        font-weight: 700;
+        letter-spacing: 0.1em;
+      }
+    }
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &__item {
+    position: relative;
+    white-space: nowrap;
+    line-height: 30px;
+    padding: 5px 19px 5px 19px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    color: $color2;
+
+    &:hover {
+      background-color: rgb(241, 238, 238);
+    }
+
+    &_page {
+      padding-right: 35px;
+      padding-left: 30px;
+
+      &.learned {
+
+        &::before {
+          position: absolute;
+          content: '';
+          height: 8px;
+          width: 12px;
+          top: 16px;
+          left: 11px;
+          transform: rotate(-45deg);
+          border-bottom: 3px solid green;
+          border-left: 3px solid green;
+        }
+      }
+    }
+  }
+
+  &__button {
+    all: unset;
+    position: relative;
+    padding: 0 15px;
+    margin: 10px;
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 46px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+
+    &_group {
+      padding-left: 29px;
+
+      &::before {
+        position: absolute;
+        content: '';
+        height: 8px;
+        width: 8px;
+        top: 19px;
+        left: 13px;
+        transform: rotate(45deg);
+        background-color: var(--group-color);
+      }
+
+      &:hover::before {
+        background-color: #fff;
+      }
+    }
+
+    &:enabled:hover {
+      color: #fff;
+      background-color: var(--group-color);
+      border-color: var(--group-color);
+    }
+
+    &:disabled {
+      cursor: default;
+      color: rgb(243, 241, 240);
+      border-color: rgb(243, 241, 240);
+    }
+  }
+}

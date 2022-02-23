@@ -1,0 +1,19 @@
+@import './sass/base/reset';
+@import './sass/utils/variables';
+@import './sass/utils/popup';
+@import './sass/utils/finishGame';
+
+//body
+@import './sass/layout/body';
+@import './sass/layout/header';
+@import './sass/layout/navigation';
+@import './sass/layout/footer';
+
+//pages
+@import './sass/pages/auth';
+@import './sass/pages/audiocall';
+@import './sass/pages/sprint';
+@import './sass/pages/textBook';
+@import './sass/pages/teamPage';
+@import './sass/pages/homePage';
+@import './sass/pages/statistics';
